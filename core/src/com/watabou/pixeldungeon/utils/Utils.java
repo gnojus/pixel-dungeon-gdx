@@ -17,8 +17,6 @@
  */
 package com.watabou.pixeldungeon.utils;
 
-import java.util.Locale;
-
 public class Utils {
 
 	public static String capitalize( String str ) {
@@ -26,7 +24,34 @@ public class Utils {
 	}
 	
 	public static String format( String format, Object...args ) {
-		return String.format( Locale.ENGLISH, format, args );
+		StringBuilder builder = new StringBuilder();
+		int arg = 0;
+		for (int i = 0; i < format.length(); i++) {
+			if (format.charAt(i) == '%') {
+				switch (format.charAt(++i)) {
+					case '+':
+						if (format.charAt(++i) != 'd')
+							throw new RuntimeException("Invalid format");
+						if (((Number)args[arg]).doubleValue() >= 0)
+							builder.append('+');
+					case 'd':
+					case 's':
+					case 'f':
+						builder.append(args[arg++]);
+						break;
+
+					case '%':
+						builder.append('%');
+						break;
+
+					default:
+						throw new RuntimeException("Unknown format");
+				}
+			} else {
+				builder.append(format.charAt(i));
+			}
+		}
+		return builder.toString();
 	}
 	
 	public static String VOWELS	= "aoeiu";

@@ -27,6 +27,7 @@ import com.watabou.pixeldungeon.effects.particles.SparkParticle;
 import com.watabou.pixeldungeon.items.weapon.Weapon;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.traps.LightningTrap;
+import com.watabou.pixeldungeon.utils.Utils;
 import com.watabou.utils.Random;
 
 public class Shock extends Weapon.Enchantment {
@@ -63,7 +64,7 @@ public class Shock extends Weapon.Enchantment {
 	
 	@Override
 	public String name( String weaponName ) {
-		return String.format( TXT_SHOCKING, weaponName );
+		return Utils.format( TXT_SHOCKING, weaponName );
 	}
 
 	private ArrayList<Char> affected = new ArrayList<Char>();

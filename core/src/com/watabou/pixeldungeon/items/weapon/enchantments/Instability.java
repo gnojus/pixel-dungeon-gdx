@@ -19,6 +19,7 @@ package com.watabou.pixeldungeon.items.weapon.enchantments;
 
 import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.items.weapon.Weapon;
+import com.watabou.pixeldungeon.utils.Utils;
 
 public class Instability extends Weapon.Enchantment {
 
@@ -31,7 +32,7 @@ public class Instability extends Weapon.Enchantment {
 	
 	@Override
 	public String name( String weaponName) {
-		return String.format( TXT_UNSTABLE, weaponName );
+		return Utils.format( TXT_UNSTABLE, weaponName );
 	}
 
 }
