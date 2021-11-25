@@ -189,7 +189,7 @@ public class DesktopInputProcessor extends PDInputProcessor {
 		DEFAULTS.put( GameAction.OPERATE, new KeyPair( Input.Keys.ENTER ) );
 	};
 
-	private static class KeyPair {
+	public static class KeyPair {
 
 		public int code1;
 		public int code2;

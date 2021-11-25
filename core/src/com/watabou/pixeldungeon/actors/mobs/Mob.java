@@ -424,7 +424,7 @@ public abstract class Mob extends Char {
 		public String status();
 	}
 	
-	private class Sleeping implements AiState {
+	public class Sleeping implements AiState {
 		
 		public static final String TAG	= "SLEEPING";
 		
@@ -464,7 +464,7 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	private class Wandering implements AiState {
+	public class Wandering implements AiState {
 		
 		public static final String TAG	= "WANDERING";
 		
@@ -501,7 +501,7 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	private class Hunting implements AiState {
+	public class Hunting implements AiState {
 		
 		public static final String TAG	= "HUNTING";
 		
@@ -540,7 +540,7 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	protected class Fleeing implements AiState {
+	public class Fleeing implements AiState {
 		
 		public static final String TAG	= "FLEEING";
 		
@@ -575,7 +575,7 @@ public abstract class Mob extends Char {
 		}
 	}
 	
-	private class Passive implements AiState {
+	public class Passive implements AiState {
 		
 		public static final String TAG	= "PASSIVE";
 		

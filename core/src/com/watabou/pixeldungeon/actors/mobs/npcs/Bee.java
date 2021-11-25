@@ -146,7 +146,7 @@ public class Bee extends NPC {
 		return IMMUNITIES;
 	}
 	
-	private class Wandering implements AiState {
+	public class Wandering implements AiState {
 
 		@Override
 		public boolean act( boolean enemyInFOV, boolean justAlerted ) {

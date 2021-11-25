@@ -140,7 +140,7 @@ public class Bag extends Item implements Iterable<Item> {
 		return new ItemIterator();
 	}
 	
-	private class ItemIterator implements Iterator<Item> {
+	public class ItemIterator implements Iterator<Item> {
 
 		private int index = 0;
 		private Iterator<Item> nested = null;

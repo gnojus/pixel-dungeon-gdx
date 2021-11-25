@@ -65,7 +65,7 @@ public class BitmapCache {
 	}
 	
 	@SuppressWarnings("serial")
-	private static class Layer extends HashMap<Object,GdxTexture> {
+	public static class Layer extends HashMap<Object,GdxTexture> {
 		
 		@Override
 		public void clear() {

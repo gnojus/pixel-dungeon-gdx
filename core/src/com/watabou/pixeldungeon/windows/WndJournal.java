@@ -86,7 +86,7 @@ public class WndJournal extends Window {
 		}
 	}
 	
-	private static class ListItem extends Component {
+	public static class ListItem extends Component {
 		
 		private BitmapText feature;
 		private BitmapText depth;

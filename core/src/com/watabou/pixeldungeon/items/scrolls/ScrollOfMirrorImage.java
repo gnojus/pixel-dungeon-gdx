@@ -86,7 +86,7 @@ public class ScrollOfMirrorImage extends Scroll {
 			"The incantation on this scroll will create illusionary twins of the reader, which will chase his enemies.";
 	}
 
-	protected static class Mirroring extends Pushing {
+	public static class Mirroring extends Pushing {
         public Mirroring(Char ch, int from, int to) {
             super(ch, from, to);
             ch.sprite.am = 0;
@@ -99,7 +99,7 @@ public class ScrollOfMirrorImage extends Scroll {
             return new Effect();
         }
 
-        protected class Effect extends Pushing.Effect {
+        public class Effect extends Pushing.Effect {
             protected Effect() {
                 super();
             }

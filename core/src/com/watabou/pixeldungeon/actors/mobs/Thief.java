@@ -146,7 +146,7 @@ public class Thief extends Mob {
 		return desc;
 	}
 	
-	private class Fleeing extends Mob.Fleeing {
+	public class Fleeing extends Mob.Fleeing {
 		@Override
 		protected void nowhereToRun() {
 			if (buff( Terror.class ) == null) {

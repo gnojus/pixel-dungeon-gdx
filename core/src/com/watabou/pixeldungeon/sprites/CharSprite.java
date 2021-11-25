@@ -434,7 +434,7 @@ public class CharSprite extends MovieClip implements Tweener.Listener, MovieClip
 		}
 	}
 	
-	private static class JumpTweener extends Tweener {
+	public static class JumpTweener extends Tweener {
 
 		public Visual visual;
 		

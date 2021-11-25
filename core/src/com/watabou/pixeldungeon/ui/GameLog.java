@@ -141,7 +141,7 @@ public class GameLog extends Component implements Signal.Listener<String> {
 		super.destroy();
 	}
 
-	private static class Entry {
+	public static class Entry {
 		public String text;
 		public int color;
 		public Entry( String text, int color ) {

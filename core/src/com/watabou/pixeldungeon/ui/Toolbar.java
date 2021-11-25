@@ -202,7 +202,7 @@ public class Toolbar extends Component {
 		}
 	};
 	
-	private static class Tool extends Button<GameAction> {
+	public static class Tool extends Button<GameAction> {
 		
 		private static final int BGCOLOR = 0x7B8073;
 		
@@ -261,7 +261,7 @@ public class Toolbar extends Component {
 		}
 	}
 	
-	private static class QuickslotTool extends Tool {
+	public static class QuickslotTool extends Tool {
 		
 		private QuickSlot slot;
 		
@@ -296,7 +296,7 @@ public class Toolbar extends Component {
 		}
 	}
 	
-	private static class PickedUpItem extends ItemSprite {
+	public static class PickedUpItem extends ItemSprite {
 		
 		private static final float DISTANCE = DungeonTilemap.SIZE;
 		private static final float DURATION = 0.2f;

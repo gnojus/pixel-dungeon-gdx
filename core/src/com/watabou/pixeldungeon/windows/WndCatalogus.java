@@ -158,7 +158,7 @@ public class WndCatalogus extends WndTabbed {
 		}
 	}
 	
-	private class ListItem extends Component {
+	public class ListItem extends Component {
 		
 		private Item item;
 		private boolean identified;

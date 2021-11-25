@@ -252,7 +252,7 @@ public class WndBag extends WndTabbed {
 		return 20;
 	}
 	
-	private class BagTab extends Tab {
+	public class BagTab extends Tab {
 		
 		private Image icon;
 
@@ -303,7 +303,7 @@ public class WndBag extends WndTabbed {
 		}
 	}
 	
-	private static class Placeholder extends Item {		
+	public static class Placeholder extends Item {		
 		{
 			name = null;
 		}
@@ -323,7 +323,7 @@ public class WndBag extends WndTabbed {
 		}
 	}
 	
-	private class ItemButton extends ItemSlot {
+	public class ItemButton extends ItemSlot {
 		
 		private static final int NORMAL		= 0xFF4A4D44;
 		private static final int EQUIPPED	= 0xFF63665B;

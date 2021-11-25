@@ -228,7 +228,7 @@ public class CavesLevel extends RegularLevel {
 		}
 	}
 	
-	private static class Vein extends Group {
+	public static class Vein extends Group {
 		
 		private int pos;
 		

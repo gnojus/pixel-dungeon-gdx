@@ -49,7 +49,7 @@ public class DesktopLauncher {
 		), config);
 	}
 
-	private static class DesktopSupport extends PDPlatformSupport {
+	public static class DesktopSupport extends PDPlatformSupport {
 		public DesktopSupport( String version, String basePath, NoosaInputProcessor inputProcessor ) {
 			super( version, basePath, inputProcessor );
 		}

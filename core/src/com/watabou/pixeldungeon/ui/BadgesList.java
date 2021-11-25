@@ -74,7 +74,7 @@ public class BadgesList extends ScrollPane {
 		}
 	}
 
-	private class ListItem extends Component {
+	public class ListItem extends Component {
 		
 		private static final float HEIGHT	= 20;
 		

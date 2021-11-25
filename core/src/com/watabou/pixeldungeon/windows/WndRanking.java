@@ -122,7 +122,7 @@ public class WndRanking extends WndTabbed {
 		select( 0 );
 	}
 
-	private class RankingTab extends LabeledTab {
+	public class RankingTab extends LabeledTab {
 		
 		private Group page;
 		
@@ -140,7 +140,7 @@ public class WndRanking extends WndTabbed {
 		}
 	}
 	
-	private class StatsTab extends Group {
+	public class StatsTab extends Group {
 		
 		private static final int GAP	= 4;
 		
@@ -225,7 +225,7 @@ public class WndRanking extends WndTabbed {
 		}
 	}
 	
-	private class ItemsTab extends Group {
+	public class ItemsTab extends Group {
 		
 		private int count;
 		private float pos;
@@ -298,7 +298,7 @@ public class WndRanking extends WndTabbed {
 		}
 	}
 	
-	private class BadgesTab extends Group {
+	public class BadgesTab extends Group {
 		
 		public BadgesTab() {
 			super();
@@ -312,7 +312,7 @@ public class WndRanking extends WndTabbed {
 		}
 	}
 	
-	private class ItemButton extends Button<GameAction> {
+	public class ItemButton extends Button<GameAction> {
 		
 		public static final int SIZE	= 26;
 		
@@ -375,7 +375,7 @@ public class WndRanking extends WndTabbed {
 		}
 	}
 
-	private class LabelledItemButton extends ItemButton {
+	public class LabelledItemButton extends ItemButton {
 		private BitmapText name;
 		
 		public LabelledItemButton( Item item ) {

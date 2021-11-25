@@ -93,7 +93,7 @@ public class Swap extends Actor {
 		}
 	}
 
-	private class Effect extends Visual {
+	public class Effect extends Visual {
 
 		private CharSprite sprite;
 		private PointF end;

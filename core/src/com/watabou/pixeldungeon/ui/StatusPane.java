@@ -265,7 +265,7 @@ public class StatusPane extends Component {
 		}
 	}
 	
-	private static class MenuButton extends Button {
+	public static class MenuButton extends Button {
 		
 		private Image image;
 		

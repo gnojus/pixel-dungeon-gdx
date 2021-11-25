@@ -104,7 +104,7 @@ public class FogOfWar extends Image {
 		texture.pixels( width2, height2, pixels );
 	}
 	
-	private class FogTexture extends SmartTexture {
+	public class FogTexture extends SmartTexture {
 		
 		public FogTexture() {
 			// FIXME: This is creating an empty texture, but we don't support calling pixels(), at least for now

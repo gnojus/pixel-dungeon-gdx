@@ -71,7 +71,7 @@ public class WndClass extends WndTabbed {
 		select( 0 );
 	}
 
-	private class RankingTab extends LabeledTab {
+	public class RankingTab extends LabeledTab {
 		
 		private Group page;
 		
@@ -89,7 +89,7 @@ public class WndClass extends WndTabbed {
 		}
 	}
 	
-	private class PerksTab extends Group {
+	public class PerksTab extends Group {
 		
 		private static final int MARGIN	= 4;
 		private static final int GAP	= 4;
@@ -141,7 +141,7 @@ public class WndClass extends WndTabbed {
 		}
 	}
 	
-	private class MasteryTab extends Group {
+	public class MasteryTab extends Group {
 		
 		private static final int MARGIN	= 4;
 

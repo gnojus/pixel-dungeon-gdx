@@ -121,7 +121,7 @@ public class Spinner extends Mob {
 		return IMMUNITIES;
 	}
 	
-	private class Fleeing extends Mob.Fleeing {
+	public class Fleeing extends Mob.Fleeing {
 		@Override
 		protected void nowhereToRun() {
 			if (buff( Terror.class ) == null) {

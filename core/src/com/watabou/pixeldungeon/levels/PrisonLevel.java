@@ -162,7 +162,7 @@ public class PrisonLevel extends RegularLevel {
 		}
 	}
 	
-	private static class Torch extends Emitter {
+	public static class Torch extends Emitter {
 		
 		private int pos;
 		

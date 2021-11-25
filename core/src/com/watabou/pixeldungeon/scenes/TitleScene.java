@@ -160,7 +160,7 @@ public class TitleScene extends PixelScene {
 		add( fb );
 	}
 	
-	private static class DashboardItem extends Button<GameAction> {
+	public static class DashboardItem extends Button<GameAction> {
 		
 		public static final float SIZE	= 48;
 		

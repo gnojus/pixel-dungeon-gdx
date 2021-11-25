@@ -316,7 +316,7 @@ public class StartScene extends PixelScene {
 		PixelDungeon.switchNoFade( TitleScene.class );
 	}
 	
-	private static class GameButton extends RedButton {
+	public static class GameButton extends RedButton {
 		
 		private static final int SECONDARY_COLOR_N	= 0xCACFC2;
 		private static final int SECONDARY_COLOR_H	= 0xFFFF88;
@@ -359,7 +359,7 @@ public class StartScene extends PixelScene {
 		}
 	}
 	
-	private class ClassShield extends Button<GameAction> {
+	public class ClassShield extends Button<GameAction> {
 		
 		private static final float MIN_BRIGHTNESS	= 0.6f;
 		
@@ -472,7 +472,7 @@ public class StartScene extends PixelScene {
 		}
 	}
 	
-	private class ChallengeButton extends Button {
+	public class ChallengeButton extends Button {
 		
 		private Image image;
 		

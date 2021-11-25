@@ -33,7 +33,7 @@ public class WndKeymap extends Window {
 
 	private final Map<GameAction, ListItem> items = new HashMap<>(32);
 
-	private static class KeyPair {
+	public static class KeyPair {
 		public int key1, key2;
 	}
 
@@ -126,7 +126,7 @@ public class WndKeymap extends Window {
 		((PDInputProcessor)Game.instance.getInputProcessor()).resetKeyMappings();
 	}
 
-	private class ListItem extends Component {
+	public class ListItem extends Component {
 
 		private static final int BOUND		= TITLE_COLOR;
 		private static final int NOT_BOUND	= 0xCACFC2;

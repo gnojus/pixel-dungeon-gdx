@@ -518,7 +518,7 @@ public abstract class Wand extends KindOfWeapon {
 		}
 	};
 	
-	protected class Charger extends Buff {
+	public class Charger extends Buff {
 		
 		private static final float TIME_TO_CHARGE = 40f;
 		

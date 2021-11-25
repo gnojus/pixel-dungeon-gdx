@@ -205,7 +205,7 @@ public class BitmapTextMultiline extends BitmapText {
 		return (height - font.lineHeight + font.baseLine) * scale.y;
 	}
 
-	private class SymbolWriter {
+	public class SymbolWriter {
 		
 		public float width = 0;
 		public float height = 0;

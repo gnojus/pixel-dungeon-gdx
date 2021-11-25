@@ -117,7 +117,7 @@ public final class ShadowCaster {
 		}
 	}
 	
-	private static final class Obstacles {
+	public static final class Obstacles {
 		
 		private static int SIZE = (MAX_DISTANCE+1) * (MAX_DISTANCE+1) / 2;
 		private static float[] a1 = new float[SIZE];

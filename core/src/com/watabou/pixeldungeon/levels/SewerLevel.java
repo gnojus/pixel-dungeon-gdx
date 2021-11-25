@@ -155,7 +155,7 @@ public class SewerLevel extends RegularLevel {
 		}
 	}
 	
-	private static class Sink extends Emitter {
+	public static class Sink extends Emitter {
 		
 		private int pos;
 		private float rippleDelay = 0;

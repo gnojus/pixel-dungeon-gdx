@@ -102,7 +102,7 @@ public class WndHero extends WndTabbed {
 		}
 	}
 
-	private class StatsTab extends Group {
+	public class StatsTab extends Group {
 		
 		private static final String TXT_TITLE		= "Level %d %s";
 		private static final String TXT_CATALOGUS	= "Catalogus";
@@ -184,7 +184,7 @@ public class WndHero extends WndTabbed {
 		}
 	}
 	
-	private class BuffsTab extends Group {
+	public class BuffsTab extends Group {
 		
 		private static final int GAP = 2;
 		

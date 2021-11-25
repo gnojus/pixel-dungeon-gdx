@@ -43,7 +43,7 @@ public class WndInfoMob extends WndTitledMessage {
 		return builder.toString();
 	}
 	
-	private static class MobTitle extends Component {
+	public static class MobTitle extends Component {
 		
 		private static final int GAP	= 2;
 		

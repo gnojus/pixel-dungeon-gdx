@@ -183,7 +183,7 @@ public class SurfaceScene extends PixelScene {
 	protected void onBackPressed() {
 	}
 	
-	private static class Sky extends Visual {
+	public static class Sky extends Visual {
 		
 		private static final int[] day		= {0xFF4488FF, 0xFFCCEEFF};
 		private static final int[] night	= {0xFF001155, 0xFF335980};
@@ -246,7 +246,7 @@ public class SurfaceScene extends PixelScene {
 		}
 	}
 	
-	private static class Cloud extends Image {
+	public static class Cloud extends Image {
 		
 		private static int lastIndex = -1;
 		
@@ -297,7 +297,7 @@ public class SurfaceScene extends PixelScene {
 		}
 	}
 
-	private static class Avatar extends Image {
+	public static class Avatar extends Image {
 		
 		private static final int WIDTH	= 24;
 		private static final int HEIGHT	= 28;
@@ -308,7 +308,7 @@ public class SurfaceScene extends PixelScene {
 		}
 	}
 	
-	private static class Pet extends MovieClip implements MovieClip.Listener {
+	public static class Pet extends MovieClip implements MovieClip.Listener {
 		
 		private Animation idle;
 		private Animation jump;
@@ -341,7 +341,7 @@ public class SurfaceScene extends PixelScene {
 		}
 	}
 	
-	private static class GrassPatch extends Image {
+	public static class GrassPatch extends Image {
 		
 		public static final int WIDTH	= 16;
 		public static final int HEIGHT	= 14;

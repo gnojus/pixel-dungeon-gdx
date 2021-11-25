@@ -127,7 +127,7 @@ public class WndTabbed extends Window {
 		}
 	}
 
-	protected class Tab extends Button<GameAction> {
+	public class Tab extends Button<GameAction> {
 		
 		protected final int CUT = 5;
 		
@@ -169,7 +169,7 @@ public class WndTabbed extends Window {
 		}
 	}
 	
-	protected class LabeledTab extends Tab {
+	public class LabeledTab extends Tab {
 		
 		private BitmapText btLabel;
 		

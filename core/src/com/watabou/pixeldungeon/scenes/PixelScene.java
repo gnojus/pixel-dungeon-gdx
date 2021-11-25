@@ -267,7 +267,7 @@ public class PixelScene extends Scene {
 		Game.scene().add( banner );
 	}
 	
-	protected static class Fader extends ColorBlock {
+	public static class Fader extends ColorBlock {
 		
 		private static float FADE_TIME = 1f;
 		
@@ -311,7 +311,7 @@ public class PixelScene extends Scene {
 		}
 	}
 	
-	private static class PixelCamera extends Camera {
+	public static class PixelCamera extends Camera {
 		
 		public PixelCamera( float zoom ) {
 			super( 

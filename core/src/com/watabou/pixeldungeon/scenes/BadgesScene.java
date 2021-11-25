@@ -121,7 +121,7 @@ public class BadgesScene extends PixelScene {
 		PixelDungeon.switchNoFade( TitleScene.class );
 	}
 	
-	private static class BadgeButton extends Button {
+	public static class BadgeButton extends Button {
 
 		private Badges.Badge badge;
 
