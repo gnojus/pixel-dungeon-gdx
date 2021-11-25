@@ -1,44 +1,31 @@
 package com.watabou.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Highlighter {
-	
-	private static final Pattern HIGHLIGHTER	= Pattern.compile( "_(.*?)_" );
-	private static final Pattern STRIPPER		= Pattern.compile( "[ \n]" );
 	
 	public String text;
 	
 	public boolean[] mask;
 	
 	public Highlighter( String text ) {
-		
-		String stripped = STRIPPER.matcher( text ).replaceAll( "" );
-		mask = new boolean[stripped.length()];
-		
-		Matcher m = HIGHLIGHTER.matcher( stripped );
-		
-		int pos = 0;
-		int lastMatch = 0;
-		
-		while (m.find()) {
-			pos += (m.start() - lastMatch);
-			int groupLen = m.group( 1 ).length();
-			for (int i=pos; i < pos + groupLen; i++) {
-				mask[i] = true;
+		StringBuilder sb = new StringBuilder();
+		boolean[] buffer = new boolean[text.length()];
+		int buffLen = 0;
+		boolean highNow = false;
+
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (c == '_') {
+				highNow = !highNow;
+			} else {
+				if (c != ' ' && c != '\n') {
+					buffer[buffLen++] = highNow;
+				}
+				sb.append(c);
 			}
-			pos += groupLen;
-			lastMatch = m.end();
 		}
-		
-		m.reset( text );
-		StringBuffer sb = new StringBuffer();
-		while (m.find()) {
-			m.appendReplacement( sb, m.group( 1 ) );
-		}
-		m.appendTail( sb );
-		
+		mask = new boolean[buffLen];
+		System.arraycopy(buffer, 0, mask, 0, buffLen);
+
 		this.text = sb.toString();
 	}
 	
