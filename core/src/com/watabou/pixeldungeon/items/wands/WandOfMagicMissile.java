@@ -46,9 +46,7 @@ public class WandOfMagicMissile extends Wand {
 		"you disenchanted the Wand of Magic Missile and used its essence to upgrade your %s";
 	
 	private static final float TIME_TO_DISENCHANT	= 2f;
-	
-	private boolean disenchantEquipped;
-	
+		
 	{
 		name = "Wand of Magic Missile";
 		image = ItemSpriteSheet.WAND_MAGIC_MISSILE;
@@ -95,6 +93,7 @@ public class WandOfMagicMissile extends Wand {
 			}
 			
 			curUser = hero;
+			WndBag.wandClass = null;
 			GameScene.selectItem( itemSelector, WndBag.Mode.WAND, TXT_SELECT_WAND );
 			
 		} else {

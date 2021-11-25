@@ -19,6 +19,8 @@ package com.watabou.pixeldungeon.mechanics;
 
 import java.util.Arrays;
 
+import com.watabou.pixeldungeon.actors.Actor;
+import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.levels.Level;
 
 public final class ShadowCaster {
@@ -31,7 +33,7 @@ public final class ShadowCaster {
 	private static int distance;
 	private static int limits[];
 	
-	private static boolean[] losBlocking;
+	private static boolean[] losBlocking = new boolean[1024];
 	private static boolean[] fieldOfView;
 	
 	private static int[][] rounding;
@@ -49,7 +51,15 @@ public final class ShadowCaster {
 	
 	public static void castShadow( int x, int y, boolean[] fieldOfView, int distance ) {
 
-		losBlocking = Level.losBlocking;
+		System.arraycopy(Level.losBlocking, 0, losBlocking, 0, 1024);
+		for (Actor actor : Actor.all()) {
+            if (actor instanceof Char) {
+                Char ch = (Char) actor;
+                boolean[] zArr = losBlocking;
+                int i = ch.pos;
+                zArr[i] = zArr[i] | ch.blocking;
+            }
+        }
 		
 		ShadowCaster.distance = distance;
 		limits = rounding[distance];

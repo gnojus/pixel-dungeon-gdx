@@ -20,6 +20,7 @@ package com.watabou.pixeldungeon.effects.particles;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.noosa.particles.Emitter.Factory;
+import com.watabou.utils.Random;
 
 public class SacrificialParticle extends PixelParticle.Shrinking {
 	
@@ -52,7 +53,8 @@ public class SacrificialParticle extends PixelParticle.Shrinking {
 		left = lifespan;
 		
 		size = 4;
-		speed.set( 0 );
+		
+		speed.set(Random.Float(-8.0f, 8.0f), 0);
 	}
 	
 	@Override

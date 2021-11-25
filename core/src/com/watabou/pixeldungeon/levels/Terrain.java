@@ -17,6 +17,8 @@
  */
 package com.watabou.pixeldungeon.levels;
 
+import com.watabou.pixeldungeon.utils.GLog;
+
 public class Terrain {
 
 	public static final int CHASM			= 0;

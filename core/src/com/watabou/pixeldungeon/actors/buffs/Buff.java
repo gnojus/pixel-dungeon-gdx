@@ -20,6 +20,7 @@ package com.watabou.pixeldungeon.actors.buffs;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
+import com.watabou.pixeldungeon.items.rings.RingOfElements.Resistance;
 import com.watabou.pixeldungeon.ui.BuffIndicator;
 
 public class Buff extends Actor {
@@ -104,4 +105,12 @@ public class Buff extends Actor {
 	public static void detach( Char target, Class<? extends Buff> cl ) {
 		detach( target.buff( cl ) );
 	}
+
+	public static float durationFactor(Char ch) {
+        Resistance r = ch.buff(Resistance.class);
+        if (r != null) {
+            return r.durationFactor();
+        }
+        return 1.0f;
+    }
 }

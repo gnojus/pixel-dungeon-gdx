@@ -19,6 +19,9 @@ package com.watabou.pixeldungeon.sprites;
 
 import com.watabou.noosa.TextureFilm;
 import com.watabou.pixeldungeon.Assets;
+import com.watabou.pixeldungeon.Dungeon;
+import com.watabou.pixeldungeon.effects.CellEmitter;
+import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.utils.Random;
 
 public class SheepSprite extends MobSprite {
@@ -37,9 +40,25 @@ public class SheepSprite extends MobSprite {
 		attack = idle.clone();
 		
 		die = new Animation( 20, false );
-		die.frames( frames, 0 );
+		die.frames( frames, 4 );
 		
 		play( idle );
 		curFrame = Random.Int( curAnim.frames.length );
 	}
+
+	@Override
+    public void die() {
+        if (visible) {
+            CellEmitter.get(ch.pos).burst(Speck.factory(7), 4);
+        }
+        super.die();
+    }
+
+    @Override
+    public void update() {
+        if (ch != null) {
+            turnTo(ch.pos, Dungeon.hero.pos);
+        }
+        super.update();
+    }
 }

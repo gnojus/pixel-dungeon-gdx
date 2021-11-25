@@ -36,7 +36,7 @@ public class WndItem extends Window {
 	
 	private static final int WIDTH = 120;
 	
-	public WndItem( final WndBag owner, final Item item ) {	
+	public WndItem( final Window owner, final Item item ) {	
 		
 		super();
 		

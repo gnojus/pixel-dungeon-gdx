@@ -71,6 +71,11 @@ public class SacrificialFire extends Blob {
 			}
 			Buff.prolong( ch, Marked.class, Marked.DURATION );
 		}
+		for (Mob mob : Dungeon.level.mobs) {
+			if (mob != ch) {
+				mob.beckon(pos);
+			}
+		}
 		if (Dungeon.visible[pos]) {
 			Journal.add( Feature.SACRIFICIAL_FIRE );
 		}

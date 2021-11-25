@@ -32,6 +32,7 @@ import com.watabou.pixeldungeon.GamesInProgress;
 import com.watabou.pixeldungeon.ResultDescriptions;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
+import com.watabou.pixeldungeon.actors.blobs.SacrificialFire;
 import com.watabou.pixeldungeon.actors.buffs.Barkskin;
 import com.watabou.pixeldungeon.actors.buffs.Bleeding;
 import com.watabou.pixeldungeon.actors.buffs.Blindness;
@@ -343,13 +344,26 @@ public class Hero extends Char {
 	
 	public float attackDelay() {
 		KindOfWeapon wep = rangedWeapon != null ? rangedWeapon : belongings.weapon;
+		float delay;
 		if (wep != null) {
 			
-			return wep.speedFactor( this );
+			delay = wep.speedFactor( this );
 						
 		} else {
-			return 1f;
+			delay = 1;
 		}
+		if (subClass == HeroSubClass.BERSERKER) {
+			int count = 0;
+			for (int n : Level.NEIGHBOURS8) {
+				if (Actor.findChar(pos + n) != null) {
+					++count;
+				}
+			}
+			if (count > 1) {
+				delay *= 1.0f - (count / 16.0f);
+			}
+		}
+		return delay;
 	}
 	
 	@Override
@@ -803,6 +817,10 @@ public class Hero extends Char {
 	
 	@Override
 	public int attackProc( Char enemy, int damage ) {
+		if ( buff(SacrificialFire.Marked.class) != null) {
+            Buff.prolong(enemy, SacrificialFire.Marked.class, 5.0f);
+        }
+
 		KindOfWeapon wep = rangedWeapon != null ? rangedWeapon : belongings.weapon;
 		if (wep != null) {
 			

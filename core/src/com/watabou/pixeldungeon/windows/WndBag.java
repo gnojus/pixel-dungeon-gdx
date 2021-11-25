@@ -89,6 +89,8 @@ public class WndBag extends WndTabbed {
 	
 	private static Mode lastMode;
 	private static Bag lastBag;
+
+	public static Class<? extends Wand> wandClass;
 	
 	public WndBag( Bag bag, Listener listener, Mode mode, String title ) {
 		
@@ -167,6 +169,14 @@ public class WndBag extends WndTabbed {
 			new WndBag( Dungeon.hero.belongings.backpack, listener, mode, title );
 	}
 	
+	public static WndBag wandHolster(Listener listener, Mode mode, String title) {
+        WandHolster holster = Dungeon.hero.belongings.getItem(WandHolster.class);
+        if (holster != null) {
+            return new WndBag(holster, listener, mode, title);
+        }
+        return new WndBag(Dungeon.hero.belongings.backpack, listener, mode, title);
+    }
+
 	protected void placeItems( Bag container ) {
 		
 		// Equipped items
@@ -399,7 +409,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
 						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
-						mode == Mode.WAND && (item instanceof Wand) ||
+						mode == Mode.WAND && (item instanceof Wand) && (WndBag.wandClass == null || WndBag.wandClass.isInstance(item)) ||
 						mode == Mode.SEED && (item instanceof Seed) ||
 						mode == Mode.ALL
 					);

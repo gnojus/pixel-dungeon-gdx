@@ -120,6 +120,10 @@ public class PixelDungeon extends Game<GameAction> {
 		com.watabou.utils.Bundle.addAlias( 
 			com.watabou.pixeldungeon.items.wands.WandOfReach.class,
 			"com.watabou.pixeldungeon.items.wands.WandOfTelekinesis" );
+		// 1.9.2
+		com.watabou.utils.Bundle.addAlias(
+			com.watabou.pixeldungeon.items.weapon.enchantments.Slowness.class, 
+			"com.watabou.pixeldungeon.items.weapon.enchantments.Slow");
 	}
 	
 	@Override

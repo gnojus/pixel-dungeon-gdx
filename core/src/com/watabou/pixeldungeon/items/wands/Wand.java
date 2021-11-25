@@ -35,12 +35,14 @@ import com.watabou.pixeldungeon.items.ItemStatusHandler;
 import com.watabou.pixeldungeon.items.KindOfWeapon;
 import com.watabou.pixeldungeon.items.bags.Bag;
 import com.watabou.pixeldungeon.items.rings.RingOfPower.Power;
+import com.watabou.pixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.watabou.pixeldungeon.mechanics.Ballistica;
 import com.watabou.pixeldungeon.scenes.CellSelector;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.ui.QuickSlot;
 import com.watabou.pixeldungeon.utils.GLog;
+import com.watabou.pixeldungeon.windows.WndBag;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
@@ -51,6 +53,12 @@ public abstract class Wand extends KindOfWeapon {
 	
 	public static final String AC_ZAP	= "ZAP";
 	
+	public static final String AC_MERGE = "MERGE";
+
+    private static final float TIME_TO_MERGE = 2.0f;
+	private static final String TXT_MERGED = "you merged two your wands to create one %s";
+    private static final String TXT_SELECT_WAND = "Select a wand to merge";
+
 	private static final String TXT_WOOD	= "This thin %s wand is warm to the touch. Who knows what it will do when used?";
 	private static final String TXT_DAMAGE	= "When this wand is used as a melee weapon, its average damage is %d points per hit.";
 	private static final String TXT_WEAPON	= "You can use this wand as a melee weapon.";
@@ -72,6 +80,10 @@ public abstract class Wand extends KindOfWeapon {
 	private int usagesToKnow = USAGES_TO_KNOW;
 	
 	protected boolean hitChars = true;
+
+	protected boolean disenchantEquipped;
+
+	private final WndBag.Listener mergeItemSelector;
 	
 	private static final Class<?>[] wands = {
 		WandOfTeleportation.class, 
@@ -128,6 +140,32 @@ public abstract class Wand extends KindOfWeapon {
 	public Wand() {
 		super();
 
+		this.mergeItemSelector = new WndBag.Listener() {
+            @Override
+            public void onSelect(Item item) {
+                if (item != null) {
+                    Sample.INSTANCE.play(Assets.SND_EVOKE);
+                    ScrollOfUpgrade.upgrade(Wand.curUser);
+                    Wand.evoke(Wand.curUser);
+                    Wand wand = (Wand) item;
+                    wand.level(Math.max(wand.level(), level()));
+
+                    wand.levelKnown = wand.levelKnown && levelKnown;
+                    wand.curChargeKnown = wand.curChargeKnown && curChargeKnown;
+					
+                    wand.upgrade();
+                    GLog.w(Wand.TXT_MERGED, wand.toString());
+                    Wand.curUser.spendAndNext(2.0f);
+                    Badges.validateItemLevelAquired(item);
+                } else if (disenchantEquipped) {
+                    Wand.curUser.belongings.weapon = Wand.this;
+                    updateQuickslot();
+                } else {
+                    collect(Wand.curUser.belongings.backpack);
+                }
+            }
+        };
+
 		try {
 			image = handler.image( this );
 			wood = handler.label( this );
@@ -146,6 +184,9 @@ public abstract class Wand extends KindOfWeapon {
 			actions.remove( AC_EQUIP );
 			actions.remove( AC_UNEQUIP );
 		}
+		if (hero.belongings.getItems(getClass()).size() > 1) {
+            actions.add(AC_MERGE);
+        }
 		return actions;
 	}
 	
@@ -160,6 +201,20 @@ public abstract class Wand extends KindOfWeapon {
 		charge( hero );
 	}
 	
+	protected void doMerge(Hero hero) {
+        if (hero.belongings.weapon == this) {
+            disenchantEquipped = true;
+            hero.belongings.weapon = null;
+            updateQuickslot();
+        } else {
+            disenchantEquipped = false;
+            detach(hero.belongings.backpack);
+        }
+        curUser = hero;
+        WndBag.wandClass = getClass();
+        GameScene.selectItem(this.mergeItemSelector, WndBag.Mode.WAND, TXT_SELECT_WAND);
+    }
+
 	@Override
 	public void execute( Hero hero, String action ) {
 		if (action.equals( AC_ZAP )) {
@@ -168,7 +223,9 @@ public abstract class Wand extends KindOfWeapon {
 			curItem = this;
 			GameScene.selectCell( zapper );
 			
-		} else {
+		} else if (action.equals(AC_MERGE)) {
+            doMerge(hero);
+        } else {
 			
 			super.execute( hero, action );
 			

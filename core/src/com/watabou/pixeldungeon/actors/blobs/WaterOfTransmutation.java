@@ -17,8 +17,14 @@
  */
 package com.watabou.pixeldungeon.actors.blobs;
 
+import com.watabou.noosa.audio.Sample;
+import com.watabou.pixeldungeon.Assets;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.Journal;
 import com.watabou.pixeldungeon.Journal.Feature;
+import com.watabou.pixeldungeon.actors.buffs.Buff;
+import com.watabou.pixeldungeon.actors.buffs.Disguise;
+import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.BlobEmitter;
 import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.items.Generator;
@@ -34,9 +40,13 @@ import com.watabou.pixeldungeon.items.scrolls.ScrollOfEnchantment;
 import com.watabou.pixeldungeon.items.wands.Wand;
 import com.watabou.pixeldungeon.items.weapon.melee.*;
 import com.watabou.pixeldungeon.plants.Plant;
+import com.watabou.pixeldungeon.sprites.HeroSprite;
+import com.watabou.pixeldungeon.utils.GLog;
 
 public class WaterOfTransmutation extends WellWater {
 	
+	private static final String TXT_PROCCED = "As you take a sip, you feel something changes in you.";
+
 	@Override
 	protected Item affectItem( Item item ) {
 		
@@ -62,6 +72,22 @@ public class WaterOfTransmutation extends WellWater {
 		
 		return item;
 	}
+
+	@Override
+    protected boolean affectHero(Hero hero) {
+        Sample.INSTANCE.play(Assets.SND_DRINK);
+        Disguise disguise = (Disguise) hero.buff(Disguise.class);
+        if (disguise != null) {
+            ((Disguise) Buff.affect(hero, Disguise.class, 100.0f)).choose(hero.heroClass, disguise.costume);
+        } else {
+            ((Disguise) Buff.affect(hero, Disguise.class, 100.0f)).choose(hero.heroClass, null);
+        }
+        Dungeon.hero.interrupt();
+        ((HeroSprite) hero.sprite).updateTexture();
+		GLog.h( TXT_PROCCED );
+        Journal.remove(Journal.Feature.WELL_OF_TRANSMUTATION);
+        return true;
+    }
 	
 	@Override
 	public void use( BlobEmitter emitter ) {

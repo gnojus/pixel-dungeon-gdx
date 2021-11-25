@@ -83,6 +83,7 @@ public abstract class Char extends Actor {
 	
 	protected float baseSpeed	= 1;
 	
+	public boolean blocking     = false;
 	public boolean paralysed	= false;
 	public boolean rooted		= false;
 	public boolean flying		= false;
@@ -302,10 +303,10 @@ public abstract class Char extends Actor {
 	
 	@Override
 	protected void spend( float time ) {
-		
 		float timeScale = 1f;
-		if (buff( Slow.class ) != null) {
-			timeScale *= 0.5f;
+		Slow s = buff( Slow.class );
+		if (s != null) {
+			timeScale *= s.timeScale();
 		}
 		if (buff( Speed.class ) != null) {
 			timeScale *= 2.0f;

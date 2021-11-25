@@ -17,6 +17,8 @@
  */
 package com.watabou.pixeldungeon;
 
+import java.util.Arrays;
+
 import com.watabou.noosa.Image;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.Tilemap;

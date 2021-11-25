@@ -29,6 +29,7 @@ import com.watabou.pixeldungeon.actors.mobs.Bestiary;
 import com.watabou.pixeldungeon.actors.mobs.Mob;
 import com.watabou.pixeldungeon.effects.CellEmitter;
 import com.watabou.pixeldungeon.effects.Speck;
+import com.watabou.pixeldungeon.effects.particles.WrathParticle;
 import com.watabou.pixeldungeon.items.Heap;
 import com.watabou.pixeldungeon.items.Heap.Type;
 import com.watabou.pixeldungeon.items.Item;
@@ -81,8 +82,9 @@ public class ScrollOfWipeOut extends Item {
 	}
 	
 	private void doRead() {
-		GameScene.flash( 0xFF6644 );
-		
+		GameScene.flash( 0x224477 );
+		curUser.sprite.centerEmitter().start(WrathParticle.FACTORY, 0.01f, 30);
+
 		Invisibility.dispel();
 		
 		for (Mob mob : Dungeon.level.mobs.toArray( new Mob[0] )) {

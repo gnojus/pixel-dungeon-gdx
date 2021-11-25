@@ -85,7 +85,7 @@ public class HallsLevel extends RegularLevel {
 			} else
 			if (map[i] == Terrain.WALL && 
 				map[i-1] != Terrain.WALL_DECO && map[i-WIDTH] != Terrain.WALL_DECO && 
-				Random.Int( 20 ) == 0) {
+				Random.Int( 4 ) == 0) {
 				
 				map[i] = Terrain.WALL_DECO;
 				

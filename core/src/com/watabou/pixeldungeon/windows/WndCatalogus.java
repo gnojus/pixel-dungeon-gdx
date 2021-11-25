@@ -24,6 +24,7 @@ import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.ui.Component;
 import com.watabou.pixeldungeon.input.GameAction;
+import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.potions.Potion;
@@ -31,6 +32,7 @@ import com.watabou.pixeldungeon.items.scrolls.Scroll;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.scenes.PixelScene;
 import com.watabou.pixeldungeon.sprites.ItemSprite;
+import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.ui.ScrollPane;
 import com.watabou.pixeldungeon.ui.Window;
 import com.watabou.pixeldungeon.utils.Utils;
@@ -156,13 +158,14 @@ public class WndCatalogus extends WndTabbed {
 		}
 	}
 	
-	private static class ListItem extends Component {
+	private class ListItem extends Component {
 		
 		private Item item;
 		private boolean identified;
 		
 		private ItemSprite sprite;
 		private BitmapText label;
+		private BitmapText topLeft;
 		
 		public ListItem( Class<? extends Item> cl ) {
 			super();
@@ -173,13 +176,15 @@ public class WndCatalogus extends WndTabbed {
 					sprite.view( item.image(), null );
 					label.text( item.name() );
 				} else {
-					sprite.view( 127, null );
+					sprite.view( ItemSpriteSheet.SMTH , null );
 					label.text( item.trueName() );
 					label.hardlight( 0xCCCCCC );
 				}
 			} catch (Exception e) {
 				// Do nothing
 			}
+			Item instance = Dungeon.hero.belongings.getItem(cl);
+            topLeft.text((instance == null || !identified) ? "" : Integer.toString(instance.quantity()));
 		}
 		
 		@Override
@@ -187,6 +192,10 @@ public class WndCatalogus extends WndTabbed {
 			sprite = new ItemSprite();
 			add( sprite );
 			
+			topLeft = new BitmapText(PixelScene.font1x);
+            topLeft.hardlight(Window.TITLE_COLOR);
+            add(topLeft);
+
 			label = PixelScene.createText( 8 );
 			add( label );
 		}
@@ -195,13 +204,22 @@ public class WndCatalogus extends WndTabbed {
 		protected void layout() {
 			sprite.y = PixelScene.align( y + (height - sprite.height) / 2 );
 			
+			topLeft.x = sprite.x;
+            topLeft.y = sprite.y;
+
 			label.x = sprite.x + sprite.width;
 			label.y = PixelScene.align( y + (height - label.baseLine()) / 2 );
 		}
 		
 		public boolean onClick( float x, float y ) {
 			if (identified && inside( x, y )) {
-				GameScene.show( new WndInfoItem( item ) );
+				Item instance = Dungeon.hero.belongings.getItem(item.getClass());
+				if (instance == null) {
+					GameScene.show(new WndInfoItem(item));
+				} else {
+					GameScene.show(new WndItem(WndCatalogus.this, instance));
+				}
+
 				return true;
 			} else {
 				return false;

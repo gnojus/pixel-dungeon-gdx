@@ -26,7 +26,7 @@ import com.watabou.utils.PointF;
 
 public class Pushing extends Actor {
 
-	private CharSprite sprite;
+	protected CharSprite sprite;
 	private int from;
 	private int to;
 	
@@ -40,10 +40,10 @@ public class Pushing extends Actor {
 	
 	@Override
 	protected boolean act() {
-		if (sprite != null) {
+		if (sprite != null && sprite.parent != null) {
 			
 			if (effect == null) {
-				new Effect();
+				effect = effect();
 			}
 			return false;
 			
@@ -54,13 +54,17 @@ public class Pushing extends Actor {
 		}
 	}
 
+	protected Effect effect() {
+        return new Effect();
+    }
+
 	public class Effect extends Visual {
 
 		private static final float DELAY = 0.15f;
 		
 		private PointF end;
 		
-		private float delay;
+		protected float delay;
 		
 		public Effect() {
 			super( 0, 0, 0, 0 );

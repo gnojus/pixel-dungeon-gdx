@@ -46,7 +46,7 @@ public class WandOfFlock extends Wand {
 		
 		int level = power();
 		
-		int n = level + 2;
+		int n = (level + 5) / 2;
 		
 		if (Actor.findChar( cell ) != null && Ballistica.distance > 2) {
 			cell = Ballistica.trace[Ballistica.distance - 2];
@@ -67,7 +67,7 @@ public class WandOfFlock extends Wand {
 			dist = 1;
 		}
 		
-		float lifespan = level + 3;
+		float lifespan = level + 4;
 		
 	sheepLabel:
 		for (int i=0; i < n; i++) {
@@ -91,6 +91,7 @@ public class WandOfFlock extends Wand {
 				dist++;
 			} while (dist < n);
 		}
+		Dungeon.observe();
 	}
 	
 	protected void fx( int cell, Callback callback ) {
@@ -111,6 +112,7 @@ public class WandOfFlock extends Wand {
 		{
 			name = "sheep";
 			spriteClass = SheepSprite.class;
+			blocking = true;
 		}
 		
 		public float lifespan;
@@ -133,6 +135,12 @@ public class WandOfFlock extends Wand {
 		}
 		
 		@Override
+        public void destroy() {
+            super.destroy();
+            Dungeon.observe();
+        }
+
+		@Override
 		public void damage( int dmg, Object src ) {
 		}
 		
@@ -140,7 +148,7 @@ public class WandOfFlock extends Wand {
 		public String description() {
 			return 
 				"This is a magic sheep. What's so magical about it? You can't kill it. " +
-				"It will stand there until it magcially fades away, all the while chewing cud with a blank stare.";
+				"It will stand there until it magically fades away, all the while chewing cud with a blank stare.";
 		}
 
 		@Override

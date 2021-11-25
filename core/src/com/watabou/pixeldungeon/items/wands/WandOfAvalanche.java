@@ -70,9 +70,9 @@ public class WandOfAvalanche extends Wand {
 				if (ch != null) {
 
 					ch.sprite.flash();
-					ch.damage( Random.Int( 2, 6 + (size - d) * 2 ), this );
+					ch.damage( Random.Int( 2, (size + 4 - d) * (level + 1) ), this );
 
-					if (ch.isAlive() && Random.Int( 2 + d ) == 0) {
+					if (ch.isAlive() && Random.Int( level + 2 + d ) < level + 1) {
 						Buff.prolong( ch, Paralysis.class, Random.IntRange( 2, 6 ) );
 					}
 				}

@@ -356,7 +356,7 @@ public class GameScene extends PixelScene {
 			
 		super.update();
 		
-		water.offset( 0, -5 * Game.elapsed );
+		water.offset( 0, -4 * Game.elapsed );
 		
 		Actor.process();
 		
@@ -603,11 +603,21 @@ public class GameScene extends PixelScene {
 	}
 	
 	public static WndBag selectItem( WndBag.Listener listener, WndBag.Mode mode, String title ) {
+		WndBag wnd;
 		cancelCellSelector();
 		
-		WndBag wnd = mode == Mode.SEED ?
-			WndBag.seedPouch( listener, mode, title ) :
-			WndBag.lastBag( listener, mode, title );
+		switch (mode) {
+			case WAND:
+				wnd = WndBag.wandHolster(listener, mode, title);
+				break;
+			case SEED:
+				wnd = WndBag.seedPouch(listener, mode, title);
+				break;
+			default:
+				wnd = WndBag.lastBag(listener, mode, title);
+				break;
+		}
+
 		scene.add( wnd );
 		
 		return wnd;

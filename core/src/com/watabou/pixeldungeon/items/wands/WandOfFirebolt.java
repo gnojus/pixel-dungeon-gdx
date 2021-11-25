@@ -60,7 +60,7 @@ public class WandOfFirebolt extends Wand {
 		Char ch = Actor.findChar( cell );
 		if (ch != null) {	
 			
-			ch.damage( Random.Int( 1, 8 + level * level ), this );
+			ch.damage(Random.Int(1, (int) (2.0 * Math.pow(level, 1.5)) + 6), this);
 			Buff.affect( ch, Burning.class ).reignite( ch );
 
 			ch.sprite.emitter().burst( FlameParticle.FACTORY, 5 );

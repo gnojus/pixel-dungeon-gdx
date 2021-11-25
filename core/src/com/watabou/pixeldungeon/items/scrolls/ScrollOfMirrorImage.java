@@ -22,8 +22,11 @@ import java.util.ArrayList;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
 import com.watabou.pixeldungeon.actors.Actor;
+import com.watabou.pixeldungeon.actors.Char;
 import com.watabou.pixeldungeon.actors.buffs.Invisibility;
 import com.watabou.pixeldungeon.actors.mobs.npcs.MirrorImage;
+import com.watabou.pixeldungeon.effects.Pushing;
+import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.items.wands.WandOfBlink;
 import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.scenes.GameScene;
@@ -56,7 +59,12 @@ public class ScrollOfMirrorImage extends Scroll {
 			MirrorImage mob = new MirrorImage();
 			mob.duplicate( curUser );
 			GameScene.add( mob );
-			WandOfBlink.appear( mob, respawnPoints.get( index ) );
+			// WandOfBlink.appear( mob, respawnPoints.get( index ) );
+			int pos = respawnPoints.get(index).intValue();
+            mob.sprite.place(pos);
+            mob.move(pos);
+            mob.sprite.flipHorizontal = curUser.sprite.flipHorizontal;
+            Actor.addDelayed(new Mirroring(mob, curUser.pos, pos), -1.0f);
 			
 			respawnPoints.remove( index );
 			nImages--;
@@ -77,4 +85,30 @@ public class ScrollOfMirrorImage extends Scroll {
 		return 
 			"The incantation on this scroll will create illusionary twins of the reader, which will chase his enemies.";
 	}
+
+	protected static class Mirroring extends Pushing {
+        public Mirroring(Char ch, int from, int to) {
+            super(ch, from, to);
+            ch.sprite.am = 0;
+        }
+
+        @Override
+        protected Pushing.Effect effect() {
+            sprite.emitter().start(Speck.factory(2), 0.2f, 3);
+            Sample.INSTANCE.play(Assets.SND_TELEPORT);
+            return new Effect();
+        }
+
+        protected class Effect extends Pushing.Effect {
+            protected Effect() {
+                super();
+            }
+
+            @Override
+            public void update() {
+                super.update();
+                sprite.am = delay / 0.15f;
+            }
+        }
+    }
 }
