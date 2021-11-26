@@ -1,4 +1,5 @@
 /*
+ * Pixel Dungeon
  * Copyright (C) 2012-2015 Oleg Dolya
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,32 +18,45 @@
 
 package com.watabou.glwrap;
 
-import java.nio.FloatBuffer;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-public class Attribute {
+import java.nio.Buffer;
 
-	private int location;
+public class BoundBuffer {
+
+	private int id, size, target;
+
+	public static int ARRAY = GL20.GL_ARRAY_BUFFER;
+	public static int ELEMENT_ARRAY = GL20.GL_ELEMENT_ARRAY_BUFFER;
+
+
+	public BoundBuffer( Buffer vertices, int size, int target ) {
+		id = Gdx.gl.glGenBuffer();
 	
-	public Attribute( int location ) {
-		this.location = location;
+		this.size = size;
+		this.target = target;
+		update(vertices);
 	}
+
+	public void update( Buffer vertices ){
+		vertices.position(0);
+		bind();
 	
-	public int location() {
-		return location;
+		Gdx.gl.glBufferData(target, vertices.capacity() * size, vertices, GL20.GL_DYNAMIC_DRAW);
+	
+		release();
 	}
-	
-	public void enable() {
-		Gdx.gl.glEnableVertexAttribArray( location );
+
+	public void bind(){
+		Gdx.gl.glBindBuffer(target, id);
 	}
-	
-	public void disable() {
-		Gdx.gl.glDisableVertexAttribArray( location );
+
+	public void release(){
+		Gdx.gl.glBindBuffer(target, 0);
 	}
-	
-	public void vertexPointer( int size, int stride, int offset ) {
-		Gdx.gl.glVertexAttribPointer( location, size, GL20.GL_FLOAT, false, stride * Float.BYTES, offset * Float.BYTES );
+
+	public void destroy(){
+		Gdx.gl.glDeleteBuffer( id );
 	}
 }

@@ -21,6 +21,7 @@ import java.nio.FloatBuffer;
 
 import com.watabou.gltextures.Gradient;
 import com.watabou.gltextures.SmartTexture;
+import com.watabou.glwrap.BoundBuffer;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Quad;
 import com.watabou.input.NoosaInputProcessor;
@@ -190,6 +191,7 @@ public class SurfaceScene extends PixelScene {
 		
 		private SmartTexture texture;
 		private FloatBuffer verticesBuffer;
+		private BoundBuffer buffer;
 		
 		public Sky( boolean dayTime ) {
 			super( 0, 0, 1, 1 );
@@ -224,6 +226,11 @@ public class SurfaceScene extends PixelScene {
 			
 			verticesBuffer.position( 0 );
 			verticesBuffer.put( vertices );
+			if (buffer == null) {
+				buffer = new BoundBuffer(verticesBuffer, Float.BYTES, BoundBuffer.ARRAY);
+			} else {
+				buffer.update(verticesBuffer);
+			}
 		}
 		
 		@Override
@@ -242,10 +249,19 @@ public class SurfaceScene extends PixelScene {
 				rm, gm, bm, am, 
 				ra, ga, ba, aa );
 			
-			script.drawQuad( verticesBuffer );
+			script.drawQuad( buffer );
+		}
+		
+		@Override
+		public void destroy() {
+			super.destroy();
+			if (buffer != null) {
+				buffer.destroy();
+			}
 		}
 	}
 	
+
 	public static class Cloud extends Image {
 		
 		private static int lastIndex = -1;

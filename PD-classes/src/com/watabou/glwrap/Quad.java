@@ -17,8 +17,6 @@
 
 package com.watabou.glwrap;
 
-import com.badlogic.gdx.utils.IntMap;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -33,12 +31,9 @@ public class Quad {
 	
 	public static final int SIZE = VALUES.length;
 
-	// TODO: check if this cache is growing too much, or find another solution
-	private static final IntMap<ShortBuffer> cache = new IntMap<ShortBuffer>();
-	public static final ShortBuffer INDICES_1 = getIndices(1);
-	static {
-		cache.put(1, INDICES_1);
-	}
+	private static int indexSize = 0;
+	private static ShortBuffer indices;
+	public static BoundBuffer indexBuffer = getIndices(50 * 50);
 	
 	public static FloatBuffer create() {
 		return ByteBuffer.
@@ -54,18 +49,18 @@ public class Quad {
 			asFloatBuffer();
 	}
 	
-	public static ShortBuffer getIndices( int size ) {
+	public static BoundBuffer getIndices( int size ) {
 
-		ShortBuffer indices = cache.get(size);
-		if (indices == null) {
+		if (size > indexSize) {
 			
-			// TODO: Optimize it!
+			indexSize = size;
 			
-			indices = ByteBuffer.
+			indices =  ByteBuffer.
 				allocateDirect( size * SIZE * Short.SIZE / 8 ).
 				order( ByteOrder.nativeOrder() ).
 				asShortBuffer();
-			
+
+				
 			short[] values = new short[size * 6];
 			int pos = 0;
 			int limit = size * 4;
@@ -80,11 +75,15 @@ public class Quad {
 			
 			indices.put( values );
 			indices.position( 0 );
-
-			cache.put(size, indices);
+			
+			if (indexBuffer == null) {
+				indexBuffer = new BoundBuffer(indices, Short.BYTES, BoundBuffer.ELEMENT_ARRAY);
+			} else {
+				indexBuffer.update(indices);
+			}
 		}
 
-		return indices;
+		return indexBuffer;
 	}
 	
 	public static void fill( float[] v, 

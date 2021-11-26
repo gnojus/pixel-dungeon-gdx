@@ -21,6 +21,7 @@ import java.nio.FloatBuffer;
 
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
+import com.watabou.glwrap.BoundBuffer;
 import com.watabou.glwrap.Quad;
 
 import com.watabou.utils.RectF;
@@ -31,6 +32,7 @@ public class NinePatch extends Visual {
 	
 	protected float[] vertices;
 	protected FloatBuffer verticesBuffer;
+	protected BoundBuffer buffer;
 	
 	protected RectF outterF;
 	protected RectF innerF;
@@ -42,6 +44,8 @@ public class NinePatch extends Visual {
 	
 	protected float nWidth;
 	protected float nHeight;
+
+	protected boolean dirty;
 	
 	public NinePatch( Object tx, int margin ) {
 		this( tx, margin, margin, margin, margin );
@@ -115,6 +119,8 @@ public class NinePatch extends Visual {
 		Quad.fill( vertices, 
 			right, width, bottom, height, innerF.right, outterF.right, innerF.bottom, outterF.bottom );
 		verticesBuffer.put( vertices );
+
+		dirty = true;
 	}
 	
 	public int marginLeft() {
@@ -168,6 +174,15 @@ public class NinePatch extends Visual {
 		
 		super.draw();
 
+		if (dirty) {
+			if (buffer == null) {
+				buffer = new BoundBuffer(verticesBuffer, Float.BYTES, BoundBuffer.ARRAY);
+			} else {
+				buffer.update(verticesBuffer);
+			}
+			dirty = false;
+		}
+
 		NoosaScript script = NoosaScript.get();
 		
 		texture.bind();
@@ -179,7 +194,15 @@ public class NinePatch extends Visual {
 			rm, gm, bm, am, 
 			ra, ga, ba, aa );
 		
-		script.drawQuadSet( verticesBuffer, 9 );
+		script.drawQuadSet( buffer, 9, 0 );
 		
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (buffer != null) {
+			buffer.destroy();
+		}
 	}
 }

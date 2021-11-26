@@ -21,6 +21,7 @@ import java.nio.FloatBuffer;
 
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
+import com.watabou.glwrap.BoundBuffer;
 import com.watabou.glwrap.Quad;
 import com.watabou.utils.Rect;
 
@@ -41,6 +42,7 @@ public class Tilemap extends Visual {
 	
 	protected float[] vertices;
 	protected FloatBuffer quads;
+	protected BoundBuffer buffer;
 	
 	public Rect updated;
 	
@@ -135,6 +137,15 @@ public class Tilemap extends Visual {
 	public void draw() {
 		
 		super.draw();
+
+		if (!updated.isEmpty()) {
+			updateVertices();
+			if (buffer == null) {
+				buffer = new BoundBuffer(quads, Float.BYTES, BoundBuffer.ARRAY);
+			} else {
+				buffer.update(quads);
+			}
+		}
 		
 		NoosaScript script = NoosaScript.get();
 		
@@ -145,12 +156,17 @@ public class Tilemap extends Visual {
 			rm, gm, bm, am, 
 			ra, ga, ba, aa );
 		
-		if (!updated.isEmpty()) {
-			updateVertices();
-		}
 		
 		script.camera( camera );
-		script.drawQuadSet( quads, size );
+		script.drawQuadSet( buffer, size, 0 );
 
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (buffer != null) {
+			buffer.destroy();
+		}
 	}
 }

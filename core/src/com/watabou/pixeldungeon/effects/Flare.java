@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.MathUtils;
 import com.watabou.gltextures.Gradient;
 import com.watabou.gltextures.SmartTexture;
+import com.watabou.glwrap.BoundBuffer;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.NoosaScript;
@@ -43,7 +44,10 @@ public class Flare extends Visual {
 	private SmartTexture texture;
 	
 	private FloatBuffer vertices;
+	private BoundBuffer buffer;
 	private ShortBuffer indices;
+	private BoundBuffer indexBuffer;
+
 	
 	private int nRays;
 	
@@ -98,6 +102,9 @@ public class Flare extends Visual {
 		}
 		
 		indices.position( 0 );
+		indexBuffer = new BoundBuffer(indices, Short.BYTES, BoundBuffer.ELEMENT_ARRAY);
+
+		buffer = new BoundBuffer(vertices, Float.BYTES, BoundBuffer.ARRAY);
 	}
 	
 	public Flare color( int color, boolean lightMode ) {
@@ -169,6 +176,17 @@ public class Flare extends Visual {
 			ra, ga, ba, aa );
 		
 		script.camera( camera );
-		script.drawElements( vertices, indices, nRays * 3 );
+		script.drawElements( buffer, indexBuffer, nRays * 3 );
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (buffer != null) {
+			buffer.destroy();
+		}
+		if (indexBuffer != null) {
+			indexBuffer.destroy();
+		}
 	}
 }

@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.watabou.gdx.GdxTexture;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
+import com.watabou.glwrap.BoundBuffer;
 import com.watabou.glwrap.Matrix;
 import com.watabou.glwrap.Quad;
 
@@ -36,6 +37,7 @@ public class BitmapText extends Visual {
 
 	protected float[] vertices = new float[16];
 	protected FloatBuffer quads;
+	protected BoundBuffer buffer;
 	
 	public int realLength;
 	
@@ -63,6 +65,9 @@ public class BitmapText extends Visual {
 		vertices = null;
 		quads = null;
 		super.destroy();
+		if (buffer != null) {
+			buffer.destroy();
+		}
 	}
 	
 	@Override
@@ -85,6 +90,11 @@ public class BitmapText extends Visual {
 		
 		if (dirty) {
 			updateVertices();
+			if (buffer == null) {
+				buffer = new BoundBuffer(quads, Float.BYTES, BoundBuffer.ARRAY);
+			} else {
+				buffer.update(quads);
+			}
 		}
 		
 		script.camera( camera() );
@@ -93,7 +103,7 @@ public class BitmapText extends Visual {
 		script.lighting( 
 			rm, gm, bm, am, 
 			ra, ga, ba, aa );
-		script.drawQuadSet( quads, realLength );
+		script.drawQuadSet( buffer, realLength, 0 );
 		
 	}
 	
