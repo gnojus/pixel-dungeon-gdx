@@ -136,7 +136,7 @@ public class PixelDungeon extends Game<GameAction> {
 		if (prefs.getBoolean(Preferences.KEY_LANDSCAPE, false) != landscape) {
 			landscape( !landscape );
 		}
-		fullscreen( prefs.getBoolean(Preferences.KEY_WINDOW_FULLSCREEN, false) );
+		fullscreen( prefs.getBoolean(Preferences.KEY_WINDOW_FULLSCREEN, instance.getPlatformSupport().fullscreenDefault()) );
 		
 		Music.INSTANCE.enable( music() );
 		Sample.INSTANCE.enable( soundFx() );
@@ -195,10 +195,10 @@ public class PixelDungeon extends Game<GameAction> {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 
-		Graphics.DisplayMode mode = Gdx.graphics.getDesktopDisplayMode();
+		Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
 		boolean maximized = width >= mode.width || height >= mode.height;
 
-		if (!maximized && !fullscreen()) {
+		if (!maximized && !isFullscreen()) {
 			final Preferences prefs = Preferences.INSTANCE;
 			prefs.put(Preferences.KEY_WINDOW_WIDTH, width);
 			prefs.put(Preferences.KEY_WINDOW_HEIGHT, height);
@@ -222,20 +222,20 @@ public class PixelDungeon extends Game<GameAction> {
 
 	public static void fullscreen(boolean value) {
 		final Preferences prefs = Preferences.INSTANCE;
+		final PDPlatformSupport ps = instance.getPlatformSupport();
 		if (value) {
 			prefs.put(Preferences.KEY_WINDOW_FULLSCREEN, true);
-
-			Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width, Gdx.graphics.getDesktopDisplayMode().height, true);
+			ps.fullscreen();
 		} else {
 			int w = prefs.getInt(Preferences.KEY_WINDOW_WIDTH, Preferences.DEFAULT_WINDOW_WIDTH);
 			int h = prefs.getInt(Preferences.KEY_WINDOW_HEIGHT, Preferences.DEFAULT_WINDOW_HEIGHT);
 			prefs.put(Preferences.KEY_WINDOW_FULLSCREEN, false);
-			Gdx.graphics.setDisplayMode(w, h, false);
+			ps.windowed(w, h);
 		}
 	}
 
-	public static boolean fullscreen() {
-		return Gdx.graphics.isFullscreen();
+	public static boolean isFullscreen() {
+		return instance.getPlatformSupport().isFullscreen();
 	}
 	
 	public static void scaleUp( boolean value ) {

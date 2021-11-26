@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Oleg Dolya
+ * Copyright (C) 2012-2014  Oleg Dolya
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,24 +17,16 @@
 
 package com.watabou.utils;
 
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonValue.ValueType;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class Bundle {
 
@@ -42,17 +34,17 @@ public class Bundle {
 	
 	private static HashMap<String,String> aliases = new HashMap<String, String>();
 	
-	private JSONObject data;
+	private JsonValue data;
 	
 	public Bundle() {
-		this( new JSONObject() );
+		this( new JsonValue(ValueType.object) );
 	}
 	
 	public String toString() {
 		return data.toString();
 	}
 	
-	private Bundle( JSONObject data ) {
+	private Bundle( JsonValue data ) {
 		this.data = data;
 	}
 	
@@ -60,40 +52,28 @@ public class Bundle {
 		return data == null;
 	}
 	
-	public ArrayList<String> fields() {
-		ArrayList<String> result = new ArrayList<String>();
-		
-		@SuppressWarnings("unchecked")
-		Iterator<String> iterator = data.keys();
-		while (iterator.hasNext()) {
-			result.add( iterator.next() );
-		}
-		
-		return result;
-	}
-	
 	public boolean contains( String key ) {
-		return !data.isNull( key );
+		return data.get( key ) != null;
 	}
 	
 	public boolean getBoolean( String key ) {
-		return data.optBoolean( key );
+		return data.getBoolean( key, false );
 	}
 	
 	public int getInt( String key ) {
-		return data.optInt( key );
+		return data.getInt( key, 0 );
 	}
 	
 	public float getFloat( String key ) {
-		return (float)data.optDouble( key );
+		return (float)data.getDouble( key, 0 );
 	}
 	
 	public String getString( String key ) {
-		return data.optString( key );
+		return data.getString( key, "" );
 	}
 	
 	public Bundle getBundle( String key ) {
-		return new Bundle( data.optJSONObject( key ) );
+		return new Bundle( data.get( key ) != null ? data.get( key ) : new JsonValue(ValueType.object));
 	}
 	
 	private Bundlable get() {
@@ -123,50 +103,32 @@ public class Bundle {
 	
 	public <E extends Enum<E>> E getEnum( String key, Class<E> enumClass ) {
 		try {
-			return Enum.valueOf( enumClass, data.getString( key ) );
-		} catch (JSONException e) {
+			return (E)Enum.valueOf( enumClass, data.getString( key ) );
+		} catch (Exception e) {
 			return enumClass.getEnumConstants()[0];
 		}
 	}
 	
 	public int[] getIntArray( String key ) {
 		try {
-			JSONArray array = data.getJSONArray( key );
-			int length = array.length();
-			int[] result = new int[length];
-			for (int i=0; i < length; i++) {
-				result[i] = array.getInt( i );
-			}
-			return result;
-		} catch (JSONException e) {
+			return data.get(key).asIntArray();
+		} catch (Exception e) {
 			return null;
 		}
 	}
 	
 	public boolean[] getBooleanArray( String key ) {
 		try {
-			JSONArray array = data.getJSONArray( key );
-			int length = array.length();
-			boolean[] result = new boolean[length];
-			for (int i=0; i < length; i++) {
-				result[i] = array.getBoolean( i );
-			}
-			return result;
-		} catch (JSONException e) {
+			return data.get(key).asBooleanArray();
+		} catch (Exception e) {
 			return null;
 		}
 	}
 	
 	public String[] getStringArray( String key ) {
 		try {
-			JSONArray array = data.getJSONArray( key );
-			int length = array.length();
-			String[] result = new String[length];
-			for (int i=0; i < length; i++) {
-				result[i] = array.getString( i );
-			}
-			return result;
-		} catch (JSONException e) {
+			return data.get(key).asStringArray();
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -176,11 +138,11 @@ public class Bundle {
 		ArrayList<Bundlable> list = new ArrayList<Bundlable>();
 		
 		try {
-			JSONArray array = data.getJSONArray( key );
-			for (int i=0; i < array.length(); i++) {
-				list.add( new Bundle( array.getJSONObject( i ) ).get() );
+			JsonValue array = data.get( key );
+			for (int i=0; i < array.size; i++) {
+				list.add( new Bundle( array.get( i ) ).get() );
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			
 		}
 		
@@ -189,40 +151,40 @@ public class Bundle {
 	
 	public void put( String key, boolean value ) {
 		try {
-			data.put( key, value );
-		} catch (JSONException e) {
+			data.addChild( key, new JsonValue(value) );
+		} catch (Exception e) {
 
 		}
 	}
 	
 	public void put( String key, int value ) {
 		try {
-			data.put( key, value );
-		} catch (JSONException e) {
+			data.addChild( key, new JsonValue(value) );
+		} catch (Exception e) {
 
 		}
 	}
 	
 	public void put( String key, float value ) {
 		try {
-			data.put( key, value );
-		} catch (JSONException e) {
+			data.addChild( key, new JsonValue(value) );
+		} catch (Exception e) {
 
 		}
 	}
 	
 	public void put( String key, String value ) {
 		try {
-			data.put( key, value );
-		} catch (JSONException e) {
+			data.addChild( key, new JsonValue(value) );
+		} catch (Exception e) {
 
 		}
 	}
 	
 	public void put( String key, Bundle bundle ) {
 		try {
-			data.put( key, bundle.data );
-		} catch (JSONException e) {
+			data.addChild( key, bundle.data );
+		} catch (Exception e) {
 
 		}
 	}
@@ -233,8 +195,8 @@ public class Bundle {
 				Bundle bundle = new Bundle();
 				bundle.put( CLASS_NAME, object.getClass().getName() );
 				object.storeInBundle( bundle );
-				data.put( key, bundle.data );
-			} catch (JSONException e) {
+				data.addChild(key, bundle.data);
+			} catch (Exception e) {
 			}
 		}
 	}
@@ -242,128 +204,86 @@ public class Bundle {
 	public void put( String key, Enum<?> value ) {
 		if (value != null) {
 			try {
-				data.put( key, value.name() );
-			} catch (JSONException e) {
+				data.addChild( key, new JsonValue( value.name() ) );
+			} catch (Exception e) {
 			}
 		}
 	}
 	
 	public void put( String key, int[] array ) {
 		try {
-			JSONArray jsonArray = new JSONArray();
+			JsonValue jsonArray = new JsonValue(ValueType.array);
 			for (int i=0; i < array.length; i++) {
-				jsonArray.put( i, array[i] );
+				jsonArray.addChild( new JsonValue( array[i]) );
 			}
-			data.put( key, jsonArray );
-		} catch (JSONException e) {
+			data.addChild( key, jsonArray );
+		} catch (Exception e) {
 			
 		}
 	}
 	
 	public void put( String key, boolean[] array ) {
 		try {
-			JSONArray jsonArray = new JSONArray();
+			JsonValue jsonArray = new JsonValue(ValueType.array);
 			for (int i=0; i < array.length; i++) {
-				jsonArray.put( i, array[i] );
+				jsonArray.addChild( new JsonValue( array[i] ) );
 			}
-			data.put( key, jsonArray );
-		} catch (JSONException e) {
+			data.addChild( key, jsonArray );
+		} catch (Exception e) {
 			
 		}
 	}
 	
 	public void put( String key, String[] array ) {
 		try {
-			JSONArray jsonArray = new JSONArray();
+			JsonValue jsonArray = new JsonValue(ValueType.array);
 			for (int i=0; i < array.length; i++) {
-				jsonArray.put( i, array[i] );
+				jsonArray.addChild( new JsonValue( array[i] ) );
 			}
-			data.put( key, jsonArray );
-		} catch (JSONException e) {
+			data.addChild( key, jsonArray );
+		} catch (Exception e) {
 			
 		}
 	}
 	
 	public void put( String key, Collection<? extends Bundlable> collection ) {
-		JSONArray array = new JSONArray();
+		JsonValue array = new JsonValue(ValueType.array);
 		for (Bundlable object : collection) {
 			Bundle bundle = new Bundle();
 			bundle.put( CLASS_NAME, object.getClass().getName() );
 			object.storeInBundle( bundle );
-			array.put( bundle.data );
+			array.addChild( bundle.data );
 		}
 		try {
-			data.put( key, array );
-		} catch (JSONException e) {
+			data.addChild( key, array );
+		} catch (Exception e) {
 			
 		}
 	}
 
 	private static final char XOR_KEY = 0x1F;
-
-	public static Bundle read( InputStream stream ) {
-		
+	
+	public static Bundle read( byte[] input ) {
 		try {
-			BufferedReader reader = new BufferedReader( new InputStreamReader( stream ) );
-
-			///* gxd fork code
-			StringBuilder builder = new StringBuilder();
-
-			char[] buffer = new char[0x2000];
-			int count = reader.read( buffer );
-			while (count > 0) {
-				for (int i=0; i < count; i++) {
-					buffer[i] ^= XOR_KEY;
-				}
-				builder.append( buffer, 0, count );
-				count = reader.read( buffer );
+			byte[] buffer = new byte[input.length];
+			for (int i=0; i < input.length; i++) {
+				buffer[i] = input[i];
+				buffer[i] ^= XOR_KEY;
 			}
-			
-			JSONObject json = (JSONObject)new JSONTokener( builder.toString() ).nextValue();
-			//*/
-			
-			// StringBuilder all = new StringBuilder();
-			// String line = reader.readLine();
-			// while (line != null) {
-			// 	all.append( line );
-			// 	line = reader.readLine();
-			// }
-			
-			// JSONObject json = (JSONObject)new JSONTokener( all.toString() ).nextValue();
-			reader.close();
-			
+			JsonValue json = new JsonReader().parse(new String(buffer));
 			return new Bundle( json );
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
 		}
+		return null;
 	}
 	
-	public static Bundle read( byte[] bytes ) {
-		try {
-			
-			JSONObject json = (JSONObject)new JSONTokener( new String( bytes ) ).nextValue();
-			return new Bundle( json );
-			
-		} catch (JSONException e) {
-			return null;
+	public static byte[] write( Bundle bundle ) {
+		byte[] chars = bundle.data.toJson(OutputType.json).getBytes();
+		for (int i=0; i < chars.length; i++) {
+			chars[i] ^= XOR_KEY;
 		}
-	}
-	
-	public static boolean write( Bundle bundle, OutputStream stream ) {
-		try {
-			BufferedWriter writer = new BufferedWriter( new OutputStreamWriter( stream ) );
-
-			char[] chars = bundle.data.toString().toCharArray();
-			for (int i=0; i < chars.length; i++) {
-				chars[i] ^= XOR_KEY;
-			}
-			writer.write( chars );
-			writer.close();
-			
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
+		return chars;
 	}
 	
 	public static void addAlias( Class<?> cl, String alias ) {

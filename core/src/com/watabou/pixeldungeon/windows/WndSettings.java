@@ -20,6 +20,7 @@ package com.watabou.pixeldungeon.windows;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
 import com.watabou.pixeldungeon.Assets;
@@ -141,7 +142,7 @@ public class WndSettings extends Window {
 				RedButton btnResolution = new RedButton(resolutionText()) {
 					@Override
 					protected void onClick() {
-						PixelDungeon.fullscreen(!PixelDungeon.fullscreen());
+						PixelDungeon.fullscreen(!PixelDungeon.isFullscreen());
 					}
 				};
 				btnResolution.enable( PixelDungeon.instance.getPlatformSupport().isFullscreenEnabled() );
@@ -203,6 +204,6 @@ public class WndSettings extends Window {
 	}
 
 	private String resolutionText() {
-		return Gdx.graphics.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL;
+		return PixelDungeon.isFullscreen() ? TXT_SWITCH_WIN : TXT_SWITCH_FULL;
 	}
 }

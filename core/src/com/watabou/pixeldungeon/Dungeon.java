@@ -409,9 +409,7 @@ public class Dungeon {
 			Badges.saveLocal( badges );
 			bundle.put( BADGES, badges );
 			
-			OutputStream output = Game.instance.openFileOutput( fileName );
-			Bundle.write( bundle, output );
-			output.close();
+			Game.instance.writeFile( fileName, Bundle.write(bundle) );
 			
 		} catch (Exception e) {
 
@@ -423,9 +421,7 @@ public class Dungeon {
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, level );
 		
-		OutputStream output = Game.instance.openFileOutput( Utils.format( depthFile( hero.heroClass ), depth ) );
-		Bundle.write( bundle, output );
-		output.close();
+		Game.instance.writeFile( Utils.format( depthFile( hero.heroClass ), depth ), Bundle.write(bundle) );
 	}
 	
 	public static void saveAll() throws IOException {
@@ -541,9 +537,8 @@ public class Dungeon {
 		Dungeon.level = null;
 		Actor.clear();
 		
-		InputStream input = Game.instance.openFileInput( Utils.format( depthFile( cl ), depth ) ) ;
+		byte[] input = Game.instance.readFile( Utils.format( depthFile( cl ), depth ) ) ;
 		Bundle bundle = Bundle.read( input );
-		input.close();
 		
 		return (Level)bundle.get( "level" );
 	}
@@ -564,9 +559,7 @@ public class Dungeon {
 	
 	public static Bundle gameBundle( String fileName ) throws IOException {
 		
-		InputStream input = Game.instance.openFileInput( fileName );
-		Bundle bundle = Bundle.read( input );
-		input.close();
+		Bundle bundle = Bundle.read( Game.instance.readFile( fileName ) );
 		
 		return bundle;
 	}

@@ -21,8 +21,9 @@ allprojects {
         appName = 'pixel-dungeon'
 	    appTitle = 'Pixel Dungeon'
 	    appId = 'com.watabou.pixeldungeon'
-        gdxVersion = '1.4.1'
-        roboVMVersion = '0.0.14'
+        gdxVersion = '1.10.1-SNAPSHOT'
+        roboVMVersion = '2.3.12'
+        // gdxControllersVersion = '2.1.0'
     }
 
     repositories {
@@ -41,8 +42,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+        // compile "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
     }
 }
 
@@ -53,7 +53,7 @@ project(":core") {
     dependencies {
 	    compile project(":PD-classes")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        // compile "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
     }
 }
 
@@ -63,8 +63,7 @@ project(":PD-classes") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-	    compile "org.json:json:20140107"
+        // compile "com.badlogicgames.gdx:gdx-controllers:$gdxControllersVersion"
     }
 }
 

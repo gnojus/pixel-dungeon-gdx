@@ -112,12 +112,7 @@ public enum Rankings {
 		bundle.put( TOTAL, totalNumber );
 		bundle.put( WON, wonNumber );
 		
-		try {
-			OutputStream output = Game.instance.openFileOutput( RANKINGS_FILE );
-			Bundle.write( bundle, output );
-			output.close();
-		} catch (Exception e) {
-		}
+		Game.instance.writeFile( RANKINGS_FILE, Bundle.write(bundle) );
 	}
 	
 	public void load() {
@@ -129,9 +124,7 @@ public enum Rankings {
 		records = new ArrayList<Rankings.Record>();
 		
 		try {
-			InputStream input = Game.instance.openFileInput( RANKINGS_FILE );
-			Bundle bundle = Bundle.read( input );
-			input.close();
+			Bundle bundle = Bundle.read( Game.instance.readFile( RANKINGS_FILE ) );
 			
 			for (Bundlable record : bundle.getCollection( RECORDS )) {
 				records.add( (Record)record );

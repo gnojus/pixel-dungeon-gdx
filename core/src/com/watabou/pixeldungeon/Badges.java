@@ -218,9 +218,7 @@ public class Badges {
 	public static void loadGlobal() {
 		if (global == null) {
 			try {
-				InputStream input = Game.instance.openFileInput( BADGES_FILE );
-				Bundle bundle = Bundle.read( input );
-				input.close();
+				Bundle bundle = Bundle.read( Game.instance.readFile( BADGES_FILE ) );
 				
 				global = restore( bundle );
 				
@@ -239,14 +237,8 @@ public class Badges {
 			bundle = new Bundle();
 			store( bundle, global );
 			
-			try {
-				OutputStream output = Game.instance.openFileOutput( BADGES_FILE );
-				Bundle.write( bundle, output );
-				output.close();
-				saveNeeded = false;
-			} catch (IOException e) {
-				
-			}
+			Game.instance.writeFile( BADGES_FILE, Bundle.write(bundle) );
+			saveNeeded = false;
 		}
 	}
 

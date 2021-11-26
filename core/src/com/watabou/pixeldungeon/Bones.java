@@ -69,22 +69,14 @@ public class Bones {
 		bundle.put( LEVEL, depth );
 		bundle.put( ITEM, item );
 		
-		try {
-			OutputStream output = Game.instance.openFileOutput( BONES_FILE );
-			Bundle.write( bundle, output );
-			output.close();
-		} catch (IOException e) {
-
-		}
+		Game.instance.writeFile( BONES_FILE, Bundle.write(bundle) );
 	}
 	
 	public static Item get() {
 		if (depth == -1) {
 			
 			try {
-				InputStream input = Game.instance.openFileInput( BONES_FILE ) ;
-				Bundle bundle = Bundle.read( input );
-				input.close();
+				Bundle bundle = Bundle.read( Game.instance.readFile( BONES_FILE ) );
 				
 				depth = bundle.getInt( LEVEL );
 				item = (Item)bundle.get( ITEM );
