@@ -27,7 +27,8 @@ import com.watabou.utils.Point;
 
 public class StatuePainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );

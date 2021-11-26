@@ -29,7 +29,8 @@ import com.watabou.utils.Random;
 
 public class TrapsPainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 		 
 		Integer traps[] = {
 			Terrain.TOXIC_TRAP, Terrain.TOXIC_TRAP, Terrain.TOXIC_TRAP, 

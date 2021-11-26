@@ -43,44 +43,40 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	
 	public static enum Type {
 		NULL( null ),
-		STANDARD	( StandardPainter.class ),
-		ENTRANCE	( EntrancePainter.class ),
-		EXIT		( ExitPainter.class ),
-		BOSS_EXIT	( BossExitPainter.class ),
-		TUNNEL		( TunnelPainter.class ),
-		PASSAGE		( PassagePainter.class ),
-		SHOP		( ShopPainter.class ),
-		BLACKSMITH	( BlacksmithPainter.class ),
-		TREASURY	( TreasuryPainter.class ),
-		ARMORY		( ArmoryPainter.class ),
-		LIBRARY		( LibraryPainter.class ),
-		LABORATORY	( LaboratoryPainter.class ),
-		VAULT		( VaultPainter.class ),
-		TRAPS		( TrapsPainter.class ),
-		STORAGE		( StoragePainter.class ),
-		MAGIC_WELL	( MagicWellPainter.class ),
-		GARDEN		( GardenPainter.class ),
-		CRYPT		( CryptPainter.class ),
-		STATUE		( StatuePainter.class ),
-		POOL		( PoolPainter.class ),
-		RAT_KING	( RatKingPainter.class ),
-		WEAK_FLOOR	( WeakFloorPainter.class ),
-		PIT			( PitPainter.class ),
-		ALTAR		( AltarPainter.class );
+		STANDARD	( new StandardPainter() ),
+		ENTRANCE	( new EntrancePainter() ),
+		EXIT		( new ExitPainter() ),
+		BOSS_EXIT	( new BossExitPainter() ),
+		TUNNEL		( new TunnelPainter() ),
+		PASSAGE		( new PassagePainter() ),
+		SHOP		( new ShopPainter() ),
+		BLACKSMITH	( new BlacksmithPainter() ),
+		TREASURY	( new TreasuryPainter() ),
+		ARMORY		( new ArmoryPainter() ),
+		LIBRARY		( new LibraryPainter() ),
+		LABORATORY	( new LaboratoryPainter() ),
+		VAULT		( new VaultPainter() ),
+		TRAPS		( new TrapsPainter() ),
+		STORAGE		( new StoragePainter() ),
+		MAGIC_WELL	( new MagicWellPainter() ),
+		GARDEN		( new GardenPainter() ),
+		CRYPT		( new CryptPainter() ),
+		STATUE		( new StatuePainter() ),
+		POOL		( new PoolPainter() ),
+		RAT_KING	( new RatKingPainter() ),
+		WEAK_FLOOR	( new WeakFloorPainter() ),
+		PIT			( new PitPainter() ),
+		ALTAR		( new AltarPainter() );
 		
-		private Method paint;
+		private Painter painter;
 		
-		private Type( Class<? extends Painter> painter ) {
-			try {
-				paint = painter.getMethod( "paint", Level.class, Room.class );
-			} catch (Exception e) {
-				paint = null;
-			}
+		private Type( Painter painter ) {
+			this.painter = painter;
 		}
 		
 		public void paint( Level level, Room room ) {
 			try {
-				paint.invoke( null, level, room );
+				painter.paint(level, room);
 			} catch (Exception e) {
 				PixelDungeon.reportException( e );
 			}

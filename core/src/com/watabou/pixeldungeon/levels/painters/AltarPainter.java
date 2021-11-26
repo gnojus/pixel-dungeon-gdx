@@ -26,7 +26,8 @@ import com.watabou.utils.Point;
 
 public class AltarPainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Dungeon.bossLevel( Dungeon.depth + 1 ) ? Terrain.HIGH_GRASS : Terrain.CHASM );

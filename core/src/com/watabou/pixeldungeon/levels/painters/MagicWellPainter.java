@@ -34,7 +34,8 @@ public class MagicWellPainter extends Painter {
 	private static final Class<?>[] WATERS = 
 		{WaterOfAwareness.class, WaterOfHealth.class, WaterOfTransmutation.class};
 	
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );

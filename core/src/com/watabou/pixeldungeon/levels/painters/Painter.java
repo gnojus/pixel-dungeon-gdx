@@ -24,7 +24,7 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.utils.Point;
 import com.watabou.utils.Rect;
 
-public class Painter {
+public abstract class Painter {
 
 	public static void set( Level level, int cell, int value ) {
 		level.map[cell] = value;
@@ -83,4 +83,6 @@ public class Painter {
 		
 		return p;
 	}
+
+	public abstract void paint( Level level, Room room );
 }

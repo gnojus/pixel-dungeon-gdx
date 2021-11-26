@@ -32,7 +32,8 @@ public class PoolPainter extends Painter {
 
 	private static final int NPIRANHAS	= 3;
 	
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 		
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.WATER );

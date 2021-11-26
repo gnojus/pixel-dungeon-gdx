@@ -23,7 +23,8 @@ import com.watabou.pixeldungeon.levels.Terrain;
 
 public class EntrancePainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 		
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );

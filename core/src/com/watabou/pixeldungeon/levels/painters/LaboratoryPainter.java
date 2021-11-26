@@ -30,7 +30,8 @@ import com.watabou.utils.Random;
 
 public class LaboratoryPainter extends Painter {
 
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY_SP );

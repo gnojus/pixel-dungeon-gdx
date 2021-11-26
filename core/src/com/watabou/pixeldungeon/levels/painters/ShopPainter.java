@@ -51,7 +51,8 @@ public class ShopPainter extends Painter {
 	private static int pasWidth;
 	private static int pasHeight;
 	
-	public static void paint( Level level, Room room ) {
+	@Override
+	public void paint( Level level, Room room ) {
 		
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY_SP );
