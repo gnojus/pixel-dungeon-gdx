@@ -55,7 +55,7 @@ public class Buff extends Actor {
 	
 	public static<T extends Buff> T append( Char target, Class<T> buffClass ) {
 		try {
-			T buff = buffClass.newInstance();
+			T buff = ClassReflection.newInstance( buffClass );
 			buff.attachTo( target );
 			return buff;
 		} catch (Exception e) {

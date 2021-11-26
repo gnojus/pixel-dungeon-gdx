@@ -17,6 +17,7 @@
  */
 package com.watabou.pixeldungeon.windows;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.BitmapText;
@@ -409,7 +410,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon || item instanceof Boomerang) ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
 						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof Boomerang || item instanceof Armor) ||
-						mode == Mode.WAND && (item instanceof Wand) && (WndBag.wandClass == null || WndBag.wandClass.isInstance(item)) ||
+						mode == Mode.WAND && (item instanceof Wand) && (WndBag.wandClass == null || ClassReflection.isInstance( WndBag.wandClass, item)) ||
 						mode == Mode.SEED && (item instanceof Seed) ||
 						mode == Mode.ALL
 					);
