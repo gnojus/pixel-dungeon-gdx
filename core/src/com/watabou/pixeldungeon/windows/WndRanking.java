@@ -42,6 +42,7 @@ import com.watabou.pixeldungeon.ui.QuickSlot;
 import com.watabou.pixeldungeon.ui.RedButton;
 import com.watabou.pixeldungeon.ui.ScrollPane;
 import com.watabou.pixeldungeon.utils.Utils;
+import com.watabou.utils.PDPlatformSupport;
 
 public class WndRanking extends WndTabbed {
 	
@@ -56,7 +57,7 @@ public class WndRanking extends WndTabbed {
 	
 	private static final int TAB_WIDTH	= 40;
 	
-	private Thread thread;
+	private PDPlatformSupport.PDThread thread;
 	private String error = null;
 	
 	private Image busy;
@@ -66,7 +67,7 @@ public class WndRanking extends WndTabbed {
 		super();
 		resize( WIDTH, HEIGHT );
 		
-		thread = new Thread() {
+		thread = Game.instance.getPlatformSupport().newThread(new Runnable(){
 			@Override
 			public void run() {
 				try {
@@ -76,7 +77,7 @@ public class WndRanking extends WndTabbed {
 					error = TXT_ERROR;
 				}
 			}
-		};
+		});
 		thread.start();
 		
 		busy = Icons.BUSY.get();	

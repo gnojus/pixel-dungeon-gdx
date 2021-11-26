@@ -8,9 +8,7 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.pixeldungeon.PixelDungeon;
 import com.watabou.pixeldungeon.Preferences;
-import com.watabou.utils.PDPlatformSupport;
-
-import org.lwjgl.opengl.Display;
+import com.watabou.utils.JVMPlatformSupport;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -49,7 +47,7 @@ public class DesktopLauncher {
 		), config);
 	}
 
-	public static class DesktopSupport extends PDPlatformSupport {
+	public static class DesktopSupport extends JVMPlatformSupport {
 		public DesktopSupport( String version, String basePath, NoosaInputProcessor inputProcessor ) {
 			super( version, basePath, inputProcessor );
 		}

@@ -33,6 +33,7 @@ import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.ui.GameLog;
 import com.watabou.pixeldungeon.windows.WndError;
 import com.watabou.pixeldungeon.windows.WndStory;
+import com.watabou.utils.PDPlatformSupport;
 
 public class InterlevelScene extends PixelScene {
 
@@ -68,7 +69,7 @@ public class InterlevelScene extends PixelScene {
 	
 	private BitmapText message;
 	
-	private Thread thread;
+	private PDPlatformSupport.PDThread thread;
 	private String error = null;
 	
 	@Override
@@ -106,8 +107,8 @@ public class InterlevelScene extends PixelScene {
 		
 		phase = Phase.FADE_IN;
 		timeLeft = TIME_TO_FADE;
-		
-		thread = new Thread() {
+
+		thread = Game.instance.getPlatformSupport().newThread( new Runnable(){
 			@Override
 			public void run() {
 				
@@ -156,7 +157,7 @@ public class InterlevelScene extends PixelScene {
 					timeLeft = TIME_TO_FADE;
 				}
 			}
-		};
+		});
 		thread.start();
 	}
 	

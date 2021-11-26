@@ -2,7 +2,7 @@ package com.watabou.utils;
 
 import com.watabou.input.NoosaInputProcessor;
 
-public class PDPlatformSupport<GameActionType> {
+public abstract class PDPlatformSupport<GameActionType> {
 	private final String version;
 	private final String basePath;
 	private final NoosaInputProcessor<GameActionType> inputProcessor;
@@ -27,5 +27,12 @@ public class PDPlatformSupport<GameActionType> {
 
 	public boolean isFullscreenEnabled() {
 		return false;
+	}
+
+	public abstract PDThread newThread(Runnable runnable);
+
+	public interface PDThread {
+		public void start();
+		public boolean isAlive();
 	}
 }
