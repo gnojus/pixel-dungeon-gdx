@@ -49,14 +49,17 @@ public class WndImp extends WndQuest {
 	
 	@Override
     protected void onSelect(int index) {
-        tokens.detach(Dungeon.hero.belongings.backpack);
+        tokens.detachAll( Dungeon.hero.belongings.backpack );
+
         Item reward = Imp.Quest.reward;
         reward.identify();
+
         if (reward.doPickUp(Dungeon.hero)) {
             GLog.i(Hero.TXT_YOU_NOW_HAVE, reward.name());
         } else {
             Dungeon.level.drop(reward, imp.pos).sprite.drop();
         }
+
         imp.flee();
         Imp.Quest.complete();
     }

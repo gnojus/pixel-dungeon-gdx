@@ -1,1 +1,1 @@
-include 'desktop', 'core', 'PD-classes'
+include 'desktop', 'core', 'PD-classes', 'html'

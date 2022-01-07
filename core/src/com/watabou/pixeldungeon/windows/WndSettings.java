@@ -168,7 +168,7 @@ public class WndSettings extends Window {
 			lastBtn = btnQuickslot;
 		}
 
-		if (type == Application.ApplicationType.Desktop) {
+		if (type == Application.ApplicationType.Desktop || type == Application.ApplicationType.WebGL) {
 
 			RedButton btnKeymap = new RedButton(TXT_BINDINGS) {
 				@Override

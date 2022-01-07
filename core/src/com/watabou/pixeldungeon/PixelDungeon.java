@@ -261,7 +261,7 @@ public class PixelDungeon extends Game<GameAction> {
 	}
 	
 	public static boolean music() {
-		return Preferences.INSTANCE.getBoolean( Preferences.KEY_MUSIC, true );
+		return Preferences.INSTANCE.getBoolean( Preferences.KEY_MUSIC, instance.getPlatformSupport().musicDefault() );
 	}
 	
 	public static void soundFx( boolean value ) {

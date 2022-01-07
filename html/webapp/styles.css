@@ -1,11 +1,29 @@
 canvas {
     cursor: default;
     outline: none;
+	display:block;
 }
 
 body {
-    background-color: #ffffff;
+    background-color: #1f1d1d;
+	margin: 0px;
+	padding: 0px;
 }
+
+table {
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+	border-spacing: 0px;
+	/* width: 0px; */
+	/* height: 0px; */
+}
+
+td {
+	padding: 0; 
+	margin: 0;
+	border-collapse: collapse;
+ }
 
 .superdev {
 	background-color:#3bb3e0;
@@ -13,9 +31,9 @@ body {
 	font-size:12px;
 	text-decoration:none;
 	color:#fff;
-	position:relative;
-	padding:10px 20px;
-	padding-right:50px;
+	position:absolute;
+	/* padding:10px 20px;
+	padding-right:50px; */
 	background-image: linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -o-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
 	background-image: -moz-linear-gradient(bottom, rgb(44,160,202) 0%, rgb(62,184,229) 100%);
@@ -39,7 +57,7 @@ body {
 }
 
 .superdev:active {
-	top:3px;
+	/* top:3px; */
 	background-image: linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
 	background-image: -o-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
 	background-image: -moz-linear-gradient(bottom, rgb(62,184,229) 0%, rgb(44,160,202) 100%);
@@ -65,12 +83,12 @@ body {
 	background-repeat:no-repeat;
 	background-position:center center;
 	content:"";
-	width:20px;
+	/* width:20px;
 	height:20px;
-	position:absolute;
 	right:15px;
-	top:50%;
-	margin-top:-9px;
+	top:50%; */
+	position:absolute;
+	/* margin-top:-9px; */
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	-o-border-radius: 50%;

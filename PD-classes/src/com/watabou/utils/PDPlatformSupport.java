@@ -45,11 +45,13 @@ public abstract class PDPlatformSupport<GameActionType> {
 		return Gdx.graphics.isFullscreen();
 	}
 	
-	public void tick() {
-	}
-
+	
 	public boolean isFullscreenEnabled() {
 		return false;
+	}
+
+	public boolean musicDefault() {
+		return true;
 	}
 
 	public byte[] readFile(String fileName) throws IOException {

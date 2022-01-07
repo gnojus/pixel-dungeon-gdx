@@ -2,12 +2,15 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
+        google()
+        gradlePluginPortal()
         maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
     }
     dependencies {
-        //classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
-        classpath 'com.android.tools.build:gradle:0.12.2'
-        classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
+        // classpath 'com.android.tools.build:gradle:0.12.2'
+        // classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
+        classpath 'org.gretty:gretty:3.0.2'
     }
 }
 
@@ -15,12 +18,14 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.9.1-gdx1.0'
+    // Version is also hardcoded in HtmlLauncher.java
+    // TODO: fix that.
+    version = '1.9.2a-gdx1.0'
     ext {
         versionCode = 59
         appName = 'pixel-dungeon'
-	    appTitle = 'Pixel Dungeon'
-	    appId = 'com.watabou.pixeldungeon'
+        appTitle = 'Pixel Dungeon'
+        appId = 'com.watabou.pixeldungeon'
         gdxVersion = '1.10.1-SNAPSHOT'
         roboVMVersion = '2.3.12'
         // gdxControllersVersion = '2.1.0'
@@ -29,6 +34,8 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        google()
+        gradlePluginPortal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
@@ -64,6 +71,25 @@ project(":PD-classes") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         // compile "com.badlogicgames.gdx:gdx-controllers:$gdxControllersVersion"
+    }
+}
+
+project(":html") {
+    apply plugin: "java-library"
+    apply plugin: "gwt"
+    apply plugin: "war"
+    apply plugin: "org.gretty"
+
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
+        //implementation("org.gwtproject.core:gwt-core:HEAD-SNAPSHOT")
+        implementation("com.google.gwt:gwt-user:2.8.2")
     }
 }
 

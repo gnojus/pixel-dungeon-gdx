@@ -18,7 +18,6 @@
 package com.watabou.pixeldungeon.ui;
 
 import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.ui.Button;
@@ -299,7 +298,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 		if (qsClass != null) {
 			try {
 				primaryValue = ClassReflection.forName( qsClass );
-			} catch (ReflectionException e) {
+			} catch (Exception e) {
 			}
 		}
 		
@@ -307,7 +306,7 @@ public class QuickSlot extends Button<GameAction> implements WndBag.Listener {
 		if (qsClass != null) {
 			try {
 				secondaryValue = ClassReflection.forName( qsClass );
-			} catch (ReflectionException e) {
+			} catch (Exception e) {
 			}
 		}
 	}
