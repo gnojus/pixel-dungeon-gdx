@@ -20,7 +20,7 @@ allprojects {
 
     // Version is also hardcoded in HtmlLauncher.java
     // TODO: fix that.
-    version = '1.9.2a-gdx1.0'
+    version = '1.9.2a-gdx1.1'
     ext {
         versionCode = 59
         appName = 'pixel-dungeon'

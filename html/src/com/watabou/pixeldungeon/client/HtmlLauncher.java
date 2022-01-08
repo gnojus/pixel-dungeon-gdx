@@ -34,7 +34,7 @@ public class HtmlLauncher extends GwtApplication {
 
 	@Override
 	public ApplicationListener createApplicationListener() {
-		String version = "1.9.2a-gdx1.0";
+		String version = "1.9.2a-gdx1.1";
 		return new PixelDungeon(new HtmlPlatformSupport(version, null, new HtmlInputProcessor()));
 	}
 
