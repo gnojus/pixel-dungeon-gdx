@@ -142,6 +142,7 @@ public class GameScene extends PixelScene {
 			Level.WIDTH * DungeonTilemap.SIZE, 
 			Level.HEIGHT * DungeonTilemap.SIZE,
 			Dungeon.level.waterTex() );
+		water.autoAdjust = true;
 		terrain.add( water );
 		
 		ripples = new Group();
