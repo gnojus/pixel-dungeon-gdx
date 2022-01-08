@@ -118,7 +118,9 @@ public class TouchArea<T> extends Visual implements Signal.Listener<NoosaInputPr
 				
 				if (this.touch == touch) {
 					this.touch = null;
-					onClick( touch );
+					if (target.overlapsScreenPoint( (int)touch.current.x, (int)touch.current.y )) {
+						onClick( touch );
+					}
 				}
 
 			}
