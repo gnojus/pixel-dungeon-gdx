@@ -3,13 +3,13 @@ pixel-dungeon-gdx
 
 GDX port of the awesome [Pixel Dungeon](https://github.com/watabou/pixel-dungeon)
 
-This is a fork of Arcnor's GDX port pushed to *Pixel Dungeon* 1.9.2a. In addition, it has a working html backend. You can play it on https://nojus297.github.io/pixel-dungeon-gdx.
+This is a fork of Arcnor's GDX port pushed to *Pixel Dungeon* 1.9.2a. In addition, it has a working html backend. You can play it on https://gnojus.github.io/pixel-dungeon-gdx.
 
 This fork is focused on the desktop/html versions, therefore I don't intend to maintain the mobile versions and those are likely to be removed in future.
 
 Quickstart
 ----------
-Download the [latest jar](https://github.com/nojus297/pixel-dungeon-gdx/releases) or build it yourself. 
+Download the [latest jar](https://github.com/gnojus/pixel-dungeon-gdx/releases) or build it yourself. 
 
 **Building**
  - `./gradlew desktop:run` to run.
